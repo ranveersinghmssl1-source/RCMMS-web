@@ -1,29 +1,9 @@
 <!DOCTYPE html>
 <html>
-
 <head>
 <title>RCMMS Admin Dashboard</title>
 
 <style>
-...
-</style>
-
-</head>
-
-<body>
-
-<div class="header">
-<h1>RCMMS Maintenance Management System</h1>
-<h3>Admin Dashboard</h3>
-</div>
-
-<!DOCTYPE html>
-<html>
-<head>
-<title>RCMMS Admin Dashboard</title>
-
-<style>
-
 *{
 margin:0;
 padding:0;
@@ -36,20 +16,11 @@ font-family:'Segoe UI',sans-serif;
 }
 
 .header{
-background:linear-gradient(
-135deg,
-#003366,
-#0056b3
-);
-
+background:linear-gradient(135deg,#003366,#0056b3);
 color:white;
-
 padding:18px;
-
 text-align:center;
-
 border-radius:0 0 15px 15px;
-
 box-shadow:0 4px 12px rgba(0,0,0,.20);
 }
 
@@ -79,32 +50,26 @@ justify-content:start;
 }
 
 .card{
-
 background:white;
 padding:15px;
 border-radius:12px;
 text-align:center;
 box-shadow:0 3px 10px rgba(0,0,0,.15);
-
-height:140px;      /* pehle bahut bada hai */
+height:140px;
 min-height:140px;
-
 display:flex;
 flex-direction:column;
 justify-content:center;
 align-items:center;
-
 transition:0.3s;
-
+border-top:4px solid #0078d7;
 }
 
 .card:hover{
-
 transform:translateY(-5px);
-
 box-shadow:0 8px 20px rgba(0,0,0,.20);
-
 }
+
 .card a{
 text-decoration:none;
 color:#003366;
@@ -118,518 +83,169 @@ margin-bottom:10px;
 }
 
 .footer{
-
 background:#003366;
-
 color:white;
-
 padding:15px;
-
 text-align:center;
-
 border-radius:10px;
-
 margin-top:25px;
-
 }
-.card{
 
-border-top:4px solid #0078d7;
-
-}
-.assy-card{
-
-border-top:4px solid #198754;
-
-}
-.operations-grid{
-
-display:grid;
-
-grid-template-columns:
-repeat(auto-fit,minmax(180px,1fr));
-
-gap:15px;
-
-}
 .monitoring-grid{
-    display:grid;
-    grid-template-columns:repeat(3,220x);
-    gap:20px;
-    justify-content:start;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(180px,220px));
+gap:20px;
+justify-content:start;
 }
+
 .monitor-card{
-    background:white;
-    border-radius:12px;
-    padding:20px;
-    text-align:center;
-    box-shadow:0 3px 10px rgba(0,0,0,.15);
-
-    height:140px;
-    width:180px;
-
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
+background:white;
+border-radius:12px;
+padding:20px;
+text-align:center;
+box-shadow:0 3px 10px rgba(0,0,0,.15);
+height:140px;
+width:180px;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+transition:0.3s;
 }
 
 .monitor-card:hover{
-
 transform:translateY(-5px);
-
 box-shadow:0 8px 20px rgba(0,0,0,.20);
-
 }
 
 .monitor-card a{
-
 text-decoration:none;
-
 font-weight:bold;
-
 color:#003366;
-
 }
 
 .monitor-icon{
-
 font-size:40px;
-
 margin-bottom:10px;
-
 }
-.assy-dashboard{
 
-background:linear-gradient(
-135deg,
-#198754,
-#0d6efd
-);
-
-
-color:white;
-
-}
 .dashboard-card{
-    background:white;
-    border-radius:15px;
-    padding:25px;
-    text-decoration:none;
-    color:#003366;
-    box-shadow:0 4px 12px rgba(0,0,0,.15);
-    transition:.3s;
-    text-align:center;
+width:180px;
+height:140px;
+background:#fff;
+border-radius:12px;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+text-decoration:none;
+color:#003366;
+box-shadow:0 3px 10px rgba(0,0,0,.15);
+transition:.3s;
+padding:15px;
 }
 
 .dashboard-card:hover{
-    transform:translateY(-5px);
-}
-
-.dashboard-card .icon{
-    font-size:45px;
-    margin-bottom:10px;
+transform:translateY(-5px);
 }
 
 .dashboard-card .title{
-    font-size:20px;
-    font-weight:bold;
-    margin-bottom:5px;
+font-size:16px;
+font-weight:bold;
 }
 
 .dashboard-card .desc{
-    color:#666;
-    font-size:14px;
+font-size:12px;
+color:#666;
+margin-top:5px;
 }
-.dashboard-card{
-    width:180px;
-    height:180px;   /* Fix Height */
-    
-    background:#fff;
-    border-radius:15px;
-
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-
-    text-align:center;
-    text-decoration:none;
-
-    box-shadow:0 4px 12px rgba(0,0,0,.12);
-
-    transition:.3s;
-}
-
-.dashboard-card:hover{
-    transform:translateY(-5px);
-}
-
-dashboard-card .desc{
-    font-size:13px;
-    color:#666;
-    margin-top:10px;
-}
-.dashboard-grid{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:20px;
-}
-.quality-card{
-    grid-column:1;
-    margin-top50x;
-}
-
 </style>
-
 </head>
 
 <body>
 
+<div class="header">
+<h1>RCMMS Maintenance Management System</h1>
+<h3>Admin Dashboard</h3>
+</div>
+
 <div class="container">
-<div class="section-title">
-📊 System Overview
-</div>
+<div class="section-title">📊 System Overview</div>
 
 <div class="card-grid">
-
-<div class="card">
-<div class="icon">🏭</div>
-<h3>Total Machines</h3>
-<h1>{{ total_machine }}</h1>
+<div class="card"><div class="icon">🏭</div><h3>Total Machines</h3><h1>24</h1></div>
+<div class="card"><div class="icon">👷</div><h3>Total Operators</h3><h1>45</h1></div>
+<div class="card"><div class="icon">🛠️</div><h3>Total Technicians</h3><h1>12</h1></div>
+<div class="card"><div class="icon">👤</div><h3>Total Users</h3><h1>18</h1></div>
+<div class="card"><div class="icon">⚠️</div><h3>Total Breakdown</h3><h1>32</h1></div>
+<div class="card"><div class="icon">🔴</div><h3>Open Breakdown</h3><h1>4</h1></div>
+<div class="card"><div class="icon">✅</div><h3>Closed Breakdown</h3><h1>28</h1></div>
+<div class="card"><div class="icon">⚠️</div><h3>Low Stock</h3><h1>5</h1></div>
 </div>
 
-<div class="card">
-<div class="icon">👷</div>
-<h3>Total Operators</h3>
-<h1>{{ total_operator }}</h1>
-</div>
-
-<div class="card">
-<div class="icon">🛠️</div>
-<h3>Total Technicians</h3>
-<h1>{{ total_technician }}</h1>
-</div>
-
-<div class="card">
-<div class="icon">👤</div>
-<h3>Total Users</h3>
-<h1>{{ total_user }}</h1>
-</div>
-
-<div class="card">
-<div class="icon">⚠️</div>
-<h3>Total Breakdown</h3>
-<h1>{{ total_breakdown }}</h1>
-</div>
-
-<div class="card">
-<div class="icon">🔴</div>
-<h3>Open Breakdown</h3>
-<h1>{{ open_breakdown }}</h1>
-</div>
-
-<div class="card">
-<div class="icon">✅</div>
-<h3>Closed Breakdown</h3>
-<h1>{{ closed_breakdown }}</h1>
-</div>
-
-<div class="card">
-
-<div class="icon">⚠️</div>
-
-<h3>Low Stock</h3>
-
-<h1>{{ low_stock_count }}</h1>
-
-</div>
-
-</div>
 <!-- MASTER DATA -->
-
-<div class="section-title">
-🏭 Master Data
-</div>
-
+<div class="section-title">🏭 Master Data</div>
 <div class="card-grid">
-
-<div class="card">
-<div class="icon">🏭</div>
-<a href="/machine_master">
-Machine Master
-</a>
-</div>
-
-<div class="card">
-<div class="icon">👷</div>
-<a href="/operator_master">
-Operator Master
-</a>
-</div>
-
-<div class="card">
-<div class="icon">🛠️</div>
-<a href="/technician_master">
-Technician Master
-</a>
-</div>
-
-<div class="card">
-<div class="icon">⚠️</div>
-<a href="/problem_master">
-Problem Master
-</a>
-</div>
-
-<div class="card">
-<div class="icon">🔧</div>
-<a href="/applicator_master">
-Applicator Master
-</a>
-</div>
-
-<div class="card">
-<div class="icon">🔩</div>
-<a href="/terminal_master">
-Terminal Master
-</a>
-</div>
-
-<div class="card">
-<div class="icon">👤</div>
-<a href="/user_master">
-User Master
-</a>
-</div>
-
+<div class="card"><div class="icon">🏭</div><a href="machine_master.html">Machine Master</a></div>
+<div class="card"><div class="icon">👷</div><a href="operator_master.html">Operator Master</a></div>
+<div class="card"><div class="icon">🛠️</div><a href="technician_master.html">Technician Master</a></div>
+<div class="card"><div class="icon">⚠️</div><a href="problem_master.html">Problem Master</a></div>
+<div class="card"><div class="icon">🔧</div><a href="applicator_master.html">Applicator Master</a></div>
+<div class="card"><div class="icon">🔩</div><a href="terminal_master.html">Terminal Master</a></div>
+<div class="card"><div class="icon">👤</div><a href="user_master.html">User Master</a></div>
 </div>
 
 <!-- INVENTORY -->
-
-<div class="section-title">
-📦 Maintenance Inventory Management
-</div>
-
+<div class="section-title">📦 Maintenance Inventory Management</div>
 <div class="card-grid">
-
-<div class="card">
-<div class="icon">📦</div>
-<a href="/spare_parts_master">
-Spare Parts Master
-</a>
+<div class="card"><div class="icon">📦</div><a href="spare_parts_master.html">Spare Parts Master</a></div>
+<div class="card"><div class="icon">📤</div><a href="spare_issue.html">Spare Issue</a></div>
+<div class="card"><div class="icon">📥</div><a href="spare_receive.html">Spare Receive</a></div>
 </div>
 
-<div class="card">
-<div class="icon">📤</div>
-<a href="/spare_issue">
-Spare Issue
-</a>
-</div>
-
-<div class="card">
-<div class="icon">📥</div>
-<a href="/spare_receive">
-Spare Receive
-</a>
-</div>
-
-</div>
 <!-- ASSY INVENTORY MANAGEMENT -->
-
-<div class="section-title">
-
-📦 ASSY Inventory Management
-
-</div>
-
+<div class="section-title">📦 ASSY Inventory Management</div>
 <div class="card-grid">
-
-    <div class="card">
-
-        <div class="icon">📦</div>
-
-        <a href="/assy_spare_parts_master">
-
-            ASSY Spare Parts Master
-
-        </a>
-
-    </div>
-
-    <div class="card">
-
-        <div class="icon">📤</div>
-
-        <a href="/assy_spare_issue">
-
-            ASSY Spare Issue
-
-        </a>
-
-    </div>
-
-    <div class="card">
-
-        <div class="icon">📥</div>
-
-        <a href="/assy_spare_receive">
-
-            ASSY Spare Receive
-
-        </a>
-
-    </div>
-
+<div class="card"><div class="icon">📦</div><a href="assy_spare_parts_master.html">ASSY Spare Parts Master</a></div>
+<div class="card"><div class="icon">📤</div><a href="assy_spare_issue.html">ASSY Spare Issue</a></div>
+<div class="card"><div class="icon">📥</div><a href="assy_spare_receive.html">ASSY Spare Receive</a></div>
 </div>
+
 <!-- OPERATIONS -->
-
-<div class="section-title">
-⚙️ Operations
-</div>
-
+<div class="section-title">⚙️ Operations</div>
 <div class="card-grid">
-
-<div class="card">
-<div class="icon">📝</div>
-<a href="/lpc">
-LPC Breakdown
-</a>
+<div class="card"><div class="icon">📝</div><a href="lpc.html">LPC Breakdown</a></div>
+<div class="card"><div class="icon">🏗️</div><a href="assy.html">ASSY Breakdown</a></div>
+<div class="card"><div class="icon">✅</div><a href="maintenance_action.html">Maintenance Action</a></div>
+<div class="card"><div class="icon">🔧</div><a href="assy_maintenance_action.html">ASSY Maintenance Action</a></div>
+<div class="card"><div class="icon">🔍</div><a href="rca.html">Root Cause Analysis</a></div>
 </div>
 
-<div class="card">
-<div class="icon">🏗️</div>
-<a href="/assy">
-ASSY Breakdown
-</a>
-</div>
-
-<div class="card">
-<div class="icon">✅</div>
-<a href="/maintenance_action">
-Maintenance Action
-</a>
-</div>
-
-<div class="card">
-<div class="icon">🔧</div>
-<a href="/assy_maintenance_action">
-ASSY Maintenance Action
-</a>
-</div>
-
-<div class="card">
-<div class="icon">🔍</div>
-<a href="/rca">
-Root Cause Analysis
-</a>
-</div>
 <!-- MONITORING -->
-
-<div class="section-title">
-
-📊 Monitoring & Reports
-
-</div>
-
+<div class="section-title">📊 Monitoring & Reports</div>
 <div class="monitoring-grid">
+<div class="monitor-card"><div class="monitor-icon">📊</div><a href="maintenance_dashboard.html">Maintenance Dashboard</a></div>
+<div class="monitor-card"><div class="monitor-icon">🟢</div><a href="assy_dashboard.html">ASSY Dashboard</a></div>
+<div class="monitor-card"><div class="monitor-icon">📈</div><a href="reports.html">Reports</a></div>
+<div class="monitor-card"><div class="monitor-icon">📋</div><a href="assy_maintenance_report.html">ASSY Maintenance Report</a></div>
 
-<div class="monitor-card">
-
-<div class="monitor-icon">📊</div>
-
-<a href="/maintenance_dashboard">
-
-Maintenance Dashboard
-
+<a href="store_dashboard.html" class="dashboard-card">
+<div class="icon">🏪</div>
+<div class="title">Store Dashboard</div>
+<div class="desc">Material Request Approval & Issue</div>
 </a>
 
-</div>
-
 <div class="monitor-card">
-
-<div class="monitor-icon">🟢</div>
-
-<a href="/assy_dashboard">
-
-ASSY Dashboard
-
-</a>
-
+<div class="monitor-icon">🔍</div>
+<a href="quality_dashboard.html">Quality Dashboard<br><small>LPC / Dock / Visual</small></a>
 </div>
-
-<div class="monitor-card">
-
-<div class="monitor-icon">📈</div>
-
-<a href="/reports">
-
-Reports
-
-</a>
-
-</div>
-
-<div class="monitor-card">
-
-<div class="monitor-icon">📋</div>
-
-<a href="/assy_maintenance_report">
-
-ASSY Maintenance Report
-
-</a>
-
-</div>
-<a href="/store_dashboard" class="dashboard-card">
-
-    <div class="icon">
-        🏪
-    </div>
-
-    <div class="title">
-        Store Dashboard
-    </div>
-
-    <div class="desc">
-        Material Request Approval & Issue
-    </div>
-
-</a>
-
-</div>
-<div class="monitor-card">
-
-    <div class="monitor-icon">🔍</div>
-
-    <a href="/quality_dashboard">
-
-        Quality Dashboard
-
-        <br>
-        <small>LPC / Dock / Visual</small>
-
-    </a>
-
-</div>
-
 </div>
 
 <div class="footer">
-
-RCMMS Maintenance Management System
-
-<br>
-
-Version 2.0
-
-<br>
-
-Developed By:
-Ranveer Singh (MSSL)
-
+RCMMS Maintenance Management System | <a href="index.html" style="color:white; text-decoration:underline;">Logout</a>
 </div>
 
-
+</div>
 </body>
 </html>
