@@ -1,3 +1,4 @@
+
 from datetime import datetime
 from flask import Flask, render_template, request, redirect, flash
 from turtle import pd
@@ -6,6 +7,158 @@ from flask import Flask, render_template, request, redirect, send_file
 import pandas
 import pandas as pd
 import pymysql
+from datetime import datetime
+from flask import Flask, render_template, request, redirect, flash, send_file, session
+import pandas as pd
+import pymysql
+
+app = Flask(__name__)
+app.secret_key = "RCMMS_maintenance_2026"
+
+# ==========================
+# AIVEN ONLINE DATABASE CONNECTION
+# ==========================
+db = pymysql.connect(
+    host="ranveer-server-ranveersinghmssl1-9ed1.d.aivencloud.com",
+    port=18259,
+    user="avnadmin",
+    password="AVNS_a3yItpgbsMKerc7-T36",  # अपना Aiven पासवर्ड यहाँ डालें
+    database="defaultdb",
+    autocommit=True
+)
+
+cursor = db.cursor()
+
+# ==========================
+# AUTO CREATE TABLES IN AIVEN
+# ==========================
+def init_db():
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS user_master (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        emp_id VARCHAR(50),
+        full_name VARCHAR(100),
+        username VARCHAR(50) UNIQUE NOT NULL,
+        password VARCHAR(100) NOT NULL,
+        department VARCHAR(50),
+        role VARCHAR(50),
+        mobile VARCHAR(20),
+        status VARCHAR(20) DEFAULT 'ACTIVE',
+        quality_access VARCHAR(10) DEFAULT 'NO',
+        store_access VARCHAR(10) DEFAULT 'NO',
+        maintenance_access VARCHAR(10) DEFAULT 'NO',
+        lpc_access VARCHAR(10) DEFAULT 'NO',
+        assy_access VARCHAR(10) DEFAULT 'NO',
+        admin_access VARCHAR(10) DEFAULT 'NO'
+    )
+    """)
+
+    cursor.execute("SELECT * FROM user_master WHERE username='admin'")
+    if not cursor.fetchone():
+        cursor.execute("""
+        INSERT INTO user_master (emp_id, full_name, username, password, department, role, status, admin_access)
+        VALUES ('EMP001', 'Ranveer Singh', 'admin', '1234', 'Admin', 'Administrator', 'ACTIVE', 'YES')
+        """)
+
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS machine_master (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        machine_code VARCHAR(50) UNIQUE NOT NULL,
+        machine_name VARCHAR(100) NOT NULL,
+        line_name VARCHAR(50),
+        department VARCHAR(50),
+        manufacturer VARCHAR(100),
+        status VARCHAR(20) DEFAULT 'ACTIVE'
+    )
+    """)
+
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS operator_master (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        operator_id VARCHAR(50) UNIQUE NOT NULL,
+        operator_name VARCHAR(100) NOT NULL,
+        department VARCHAR(50),
+        shift VARCHAR(20),
+        status VARCHAR(20) DEFAULT 'ACTIVE'
+    )
+    """)
+
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS technician_master (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        technician_id VARCHAR(50) UNIQUE NOT NULL,
+        technician_name VARCHAR(100) NOT NULL,
+        department VARCHAR(50),
+        skill VARCHAR(100),
+        mobile_no VARCHAR(20),
+        email VARCHAR(100),
+        shift_name VARCHAR(50),
+        status VARCHAR(20) DEFAULT 'ACTIVE'
+    )
+    """)
+
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS spare_parts_master (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        part_code VARCHAR(50) UNIQUE NOT NULL,
+        part_name VARCHAR(100) NOT NULL,
+        category VARCHAR(50),
+        current_stock INT DEFAULT 0,
+        min_stock INT DEFAULT 5,
+        location VARCHAR(50)
+    )
+    """)
+
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS breakdown_log (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        section VARCHAR(20) NOT NULL,
+        machine_code VARCHAR(50) NOT NULL,
+        operator_name VARCHAR(100),
+        problem_description TEXT,
+        breakdown_start DATETIME DEFAULT CURRENT_TIMESTAMP,
+        breakdown_end DATETIME NULL,
+        downtime_minutes INT DEFAULT 0,
+        technician_name VARCHAR(100),
+        action_taken TEXT,
+        root_cause TEXT,
+        spare_used VARCHAR(255),
+        status VARCHAR(20) DEFAULT 'OPEN'
+    )
+    """)
+    print("Aiven Database connected & tables ready!")
+
+init_db()
+
+# ==========================
+# TECHNICIAN ROUTES
+# ==========================
+@app.route("/update_technician/<int:id>", methods=["POST"])
+def update_technician(id):
+    technician_id = request.form.get("technician_id")
+    technician_name = request.form.get("technician_name")
+    department = request.form.get("department")
+    skill = request.form.get("skill")
+    mobile_no = request.form.get("mobile_no")
+    email = request.form.get("email")
+    shift_name = request.form.get("shift_name")
+    status = request.form.get("status")
+
+    cursor.execute("""
+        UPDATE technician_master
+        SET technician_id=%s, technician_name=%s, department=%s, skill=%s,
+            mobile_no=%s, email=%s, shift_name=%s, status=%s
+        WHERE id=%s
+    """, (technician_id, technician_name, department, skill, mobile_no, email, shift_name, status, id))
+
+    flash("Technician Updated Successfully", "success")
+    return redirect("/technician_master")
+
+@app.route("/delete_technician/<int:id>")
+def delete_technician(id):
+    cursor.execute("DELETE FROM technician_master WHERE id=%s", (id,))
+    return redirect("/technician_master")
+
 
 app = Flask(__name__)
 
