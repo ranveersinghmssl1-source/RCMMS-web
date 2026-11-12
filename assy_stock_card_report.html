@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>ASSY Stock Card Report</title>
+
+<style>
+
+body{
+font-family:'Segoe UI',sans-serif;
+background:#f4f6f9;
+margin:0;
+padding:20px;
+}
+
+.container{
+background:white;
+padding:20px;
+border-radius:10px;
+box-shadow:0 0 10px rgba(0,0,0,.15);
+}
+
+h2{
+color:#003366;
+margin-bottom:20px;
+}
+
+select{
+padding:10px;
+width:300px;
+border:1px solid #ccc;
+border-radius:5px;
+}
+
+button{
+padding:10px 20px;
+background:#0078d7;
+color:white;
+border:none;
+border-radius:5px;
+cursor:pointer;
+}
+
+button:hover{
+background:#005ea6;
+}
+
+.back-btn{
+background:#198754;
+color:white;
+padding:10px 20px;
+text-decoration:none;
+border-radius:5px;
+display:inline-block;
+margin-bottom:15px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<a href="/assy_dashboard"
+class="back-btn">
+
+⬅ Back To ASSY Dashboard
+
+</a>
+
+<h2>
+
+📋 ASSY Stock Card Report
+
+</h2>
+
+<form
+action="/view_stock_card"
+method="POST">
+
+<select
+name="part_no"
+required>
+
+<option value="">
+
+Select Part
+
+</option>
+
+{% for part in spare_parts %}
+
+<option
+value="{{ part[0] }}">
+
+{{ part[0] }} - {{ part[1] }}
+
+</option>
+
+{% endfor %}
+
+</select>
+
+<button type="submit">
+
+View Report
+
+</button>
+
+</form>
+
+</div>
+
+</body>
+
+</html>

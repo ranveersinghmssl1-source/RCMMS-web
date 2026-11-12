@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Assy RCA Report</title>
+
+<style>
+
+body{
+font-family:'Segoe UI',sans-serif;
+background:#f4f6f9;
+margin:0;
+}
+
+.header{
+background:#dc3545;
+color:white;
+padding:20px;
+text-align:center;
+font-size:28px;
+font-weight:bold;
+}
+
+.container{
+width:95%;
+margin:auto;
+margin-top:20px;
+background:white;
+padding:20px;
+border-radius:10px;
+box-shadow:0px 0px 10px rgba(0,0,0,.15);
+}
+
+.back-btn{
+background:#198754;
+color:white;
+padding:10px 20px;
+border-radius:5px;
+text-decoration:none;
+display:inline-block;
+margin-bottom:20px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+font-size:14px;
+}
+
+th{
+background:#003366;
+color:white;
+padding:12px;
+}
+
+td{
+padding:10px;
+border:1px solid #ddd;
+}
+
+tr:nth-child(even){
+background:#f8f9fa;
+}
+
+tr:hover{
+background:#e9f2ff;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+
+📋 ASSY RCA Report
+
+</div>
+
+<div class="container">
+
+<a href="/assy_maintenance_report"
+class="back-btn">
+
+⬅ Back To Report
+
+</a>
+
+<table>
+
+<tr>
+
+<th>Ticket No</th>
+<th>Date</th>
+<th>Machine</th>
+<th>Problem</th>
+<th>Root Cause</th>
+<th>Action Taken</th>
+<th>Technician</th>
+
+</tr>
+
+{% for row in report_data %}
+
+<tr>
+
+<td>{{ row[0] }}</td>
+
+<td>{{ row[6] }}</td>
+
+<td>{{ row[1] }}</td>
+
+<td>{{ row[2] }}</td>
+
+<td>{{ row[3] }}</td>
+
+<td>{{ row[4] }}</td>
+
+<td>{{ row[5] }}</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</div>
+
+</body>
+
+</html>

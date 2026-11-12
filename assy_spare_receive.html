@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>ASSY Spare Receive</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
+}
+
+body{
+background:#f4f6f9;
+}
+
+.header{
+background:#003366;
+color:white;
+padding:20px;
+text-align:center;
+font-size:28px;
+font-weight:bold;
+}
+
+.container{
+width:95%;
+margin:auto;
+margin-top:20px;
+background:white;
+padding:20px;
+border-radius:10px;
+box-shadow:0 0 10px rgba(0,0,0,.15);
+}
+
+.section-title{
+font-size:22px;
+color:#003366;
+margin-bottom:15px;
+border-left:5px solid #0078d7;
+padding-left:10px;
+}
+
+.row{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:15px;
+margin-bottom:15px;
+}
+
+.field label{
+display:block;
+font-weight:bold;
+margin-bottom:5px;
+color:#003366;
+}
+
+input,
+select,
+textarea{
+width:100%;
+padding:10px;
+border:1px solid #ccc;
+border-radius:5px;
+}
+
+textarea{
+height:80px;
+}
+
+button{
+background:#0078d7;
+color:white;
+border:none;
+padding:12px 20px;
+border-radius:5px;
+cursor:pointer;
+}
+
+button:hover{
+background:#005ea6;
+}
+
+.back-btn{
+background:#198754;
+color:white;
+padding:10px 20px;
+border-radius:5px;
+text-decoration:none;
+display:inline-block;
+margin-bottom:15px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:20px;
+}
+
+th{
+background:#003366;
+color:white;
+padding:12px;
+}
+
+td{
+padding:10px;
+border:1px solid #ddd;
+text-align:center;
+}
+
+tr:nth-child(even){
+background:#f8f9fa;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+
+📥 ASSY Spare Receive
+
+</div>
+
+<div class="container">
+
+<a href="/maintenance"
+class="back-btn">
+
+⬅ Back To Dashboard
+
+</a>
+
+<h2 class="section-title">
+
+Receive Spare Part
+
+</h2>
+
+<form action="/save_assy_spare_receive"
+method="POST">
+
+<div class="row">
+
+<div class="field">
+
+<label>Receive No</label>
+
+<input
+type="text"
+name="receive_no"
+value="ASR-0001"
+readonly>
+
+</div>
+
+<div class="field">
+
+<label>Receive Date</label>
+
+<input
+type="date"
+name="receive_date"
+required>
+
+</div>
+
+</div>
+
+<div class="row">
+
+<div class="field">
+
+<label>Supplier Name</label>
+
+<input
+type="text"
+name="supplier_name"
+required>
+
+</div>
+
+<div class="field">
+
+<label>Invoice No</label>
+
+<input
+type="text"
+name="invoice_no">
+
+</div>
+
+</div>
+
+<div class="row">
+
+<div class="field">
+
+<label>Part No</label>
+
+<select
+name="part_no"
+id="part_no"
+required>
+
+<option value="">
+Select Part
+</option>
+
+{% for part in spare_parts %}
+
+<option
+value="{{ part[0] }}"
+data-name="{{ part[1] }}"
+data-stock="{{ part[2] }}">
+
+{{ part[0] }} - {{ part[1] }}
+
+</option>
+
+{% endfor %}
+
+</select>
+
+</div>
+
+<div class="field">
+
+<label>Part Name</label>
+
+<input
+type="text"
+name="part_name"
+id="part_name"
+readonly>
+
+</div>
+
+</div>
+
+<div class="row">
+
+<div class="field">
+
+<label>Current Stock</label>
+
+<input
+type="number"
+name="current_stock"
+id="current_stock"
+readonly>
+
+</div>
+
+<div class="field">
+
+<label>Receive Qty</label>
+
+<input
+type="number"
+name="receive_qty"
+required>
+
+</div>
+
+</div>
+
+<div class="row">
+
+<div class="field">
+
+<label>Received By</label>
+
+<input
+type="text"
+name="received_by"
+required>
+
+</div>
+
+<div class="field">
+
+<label>Remarks</label>
+
+<textarea
+name="remarks"></textarea>
+
+</div>
+
+</div>
+
+<button type="submit">
+
+📥 Receive Spare
+
+</button>
+
+</form>
+
+<br>
+
+<h2 class="section-title">
+
+📋 Receive History
+
+</h2>
+
+<table>
+
+<tr>
+
+<th>Receive No</th>
+<th>Date</th>
+<th>Supplier</th>
+<th>Invoice No</th>
+<th>Part No</th>
+<th>Part Name</th>
+<th>Receive Qty</th>
+<th>Received By</th>
+
+</tr>
+
+{% for row in receive_history %}
+
+<tr>
+
+<td>{{ row[1] }}</td>
+<td>{{ row[2] }}</td>
+<td>{{ row[3] }}</td>
+<td>{{ row[4] }}</td>
+<td>{{ row[5] }}</td>
+<td>{{ row[6] }}</td>
+<td>{{ row[8] }}</td>
+<td>{{ row[10] }}</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</div>
+
+<script>
+
+document
+.getElementById("part_no")
+.addEventListener("change", function(){
+
+let selected =
+this.options[this.selectedIndex];
+
+document
+.getElementById("part_name")
+.value =
+selected.getAttribute(
+"data-name"
+) || "";
+
+document
+.getElementById("current_stock")
+.value =
+selected.getAttribute(
+"data-stock"
+) || "";
+
+});
+
+</script>
+
+</body>
+
+</html>

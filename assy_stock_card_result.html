@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>ASSY Stock Card Result</title>
+
+<style>
+
+body{
+font-family:'Segoe UI',sans-serif;
+background:#f4f6f9;
+margin:0;
+padding:20px;
+}
+
+.container{
+background:white;
+padding:20px;
+border-radius:10px;
+box-shadow:0 0 10px rgba(0,0,0,.15);
+}
+
+.back-btn{
+background:#198754;
+color:white;
+padding:10px 20px;
+text-decoration:none;
+border-radius:5px;
+}
+
+h2{
+color:#003366;
+margin-top:15px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:20px;
+}
+
+th{
+background:#003366;
+color:white;
+padding:12px;
+}
+
+td{
+padding:10px;
+border:1px solid #ddd;
+text-align:center;
+}
+
+.receive{
+color:green;
+font-weight:bold;
+}
+
+.issue{
+color:red;
+font-weight:bold;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<a href="/assy_stock_card_report"
+class="back-btn">
+
+⬅ Back
+
+</a>
+
+<h2>
+
+📋 ASSY Stock Card Report
+
+</h2>
+
+<h3>
+
+Part No : {{ part_no }}
+
+</h3>
+
+<table>
+
+<tr>
+
+<th>Date</th>
+<th>Transaction</th>
+<th>Quantity</th>
+
+</tr>
+
+{% for row in report_data %}
+
+<tr>
+
+<td>{{ row[0] }}</td>
+
+<td>
+
+{% if row[1] == 'RECEIVE' %}
+
+<span class="receive">
+📥 RECEIVE
+</span>
+
+{% else %}
+
+<span class="issue">
+📤 ISSUE
+</span>
+
+{% endif %}
+
+</td>
+
+<td>{{ row[2] }}</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</div>
+
+</body>
+
+</html>

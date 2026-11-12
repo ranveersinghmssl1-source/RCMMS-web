@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>RCMMS LPC Maintenance Dashboard</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+
+*{
+margin:10;
+padding:15;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
+}
+
+body{
+background:#eef2f7;
+}
+
+.header{
+background:linear-gradient(135deg,#003366,#0078d7);
+color:white;
+padding:15px;
+text-align:center;
+}
+.header h1{
+font-size:55px;
+font-weight:bold;
+}
+
+.container{
+width:98%;
+margin:auto;
+padding:10px;
+}
+
+.search-box{
+width:300px;
+padding:10px;
+border:1px solid #ccc;
+border-radius:5px;
+margin-bottom:10px;
+}
+
+/* TOP CARDS */
+
+.cards{
+display:grid;
+grid-template-columns:repeat(5,1fr);
+gap:20px;
+margin-bottom:35px;
+}
+
+.card{
+padding:15px;
+border-radius:10px;
+text-align:center;
+color:white;
+box-shadow:0 3px 8px rgba(0,0,0,.2);
+}
+
+.card h3{
+font-size:40px;
+font-weight:bold;
+}
+
+.card p{
+font-size:42px;
+font-weight:bold;
+margin-top:10px;
+}
+
+.open{
+background:#dc3545;
+}
+
+.pending{
+background:#ff9800;
+}
+
+.closed{
+background:#28a745;
+}
+
+.low{
+background:#9c27b0;
+}
+
+.total{
+background:#0078d7;
+}
+
+/* KPI GRID */
+
+.kpi-grid{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:15px;
+margin-bottom:20px;
+}
+
+.kpi-card{
+padding:15px;
+border-radius:24px;
+text-align:center;
+color:white;
+box-shadow:0 3px 8px rgba(0,0,0,.2);
+}
+
+.kpi-card h1{
+font-size:40px;
+font-weight:bold;
+}
+
+.kpi-card h3{
+font-size:40px;
+font-weight:bold;
+}
+
+.kpi-card p{
+font-size:16px;
+}
+
+.blue{background:#0078d7;}
+.green{background:#28a745;}
+.orange{background:#ff9800;}
+.red{background:#dc3545;}
+.purple{background:#673ab7;}
+.dark{background:#37474f;}
+.teal{background:#009688;}
+.yellow{background:#f9a825;}
+
+/* MACHINE STATUS */
+
+.machine-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
+gap:10px;
+margin-bottom:40px;
+}
+
+.machine-card{
+padding:15px;
+border-radius:10px;
+color:white;
+text-align:center;
+font-weight:bold;
+}
+
+.running{
+background:#28a745;
+}
+
+.breakdown{
+background:#dc3545;
+}
+
+.setup{
+background:#ff9800;
+}
+
+/* TABLES */
+
+.dashboard-grid{
+display:grid;
+grid-template-columns:1.5fr 1fr;
+gap:10px;
+margin-bottom:10px;
+}
+
+.section{
+background:white;
+padding:10px;
+border-radius:10px;
+box-shadow:0 2px 6px rgba(0,0,0,.15);
+}
+
+.section h2{
+margin-bottom:10px;
+color:#003366;
+font-size:18px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+font-size:38px;
+}
+
+th{
+background:#003366;
+color:white;
+}
+
+th,td{
+padding:8px;
+border:1px solid #ddd;
+text-align:center;
+}
+
+.status-open{
+background:red;
+color:white;
+padding:3px 8px;
+border-radius:4px;
+}
+
+.status-pending{
+background:orange;
+color:white;
+padding:3px 8px;
+border-radius:4px;
+}
+
+.status-closed{
+background:green;
+color:white;
+padding:3px 8px;
+border-radius:4px;
+}
+
+/* CHARTS */
+
+.graph-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+}
+
+canvas{
+height:300x !important;
+max-height:300px !important;
+}
+.status-running{
+
+background:#28a745;
+color:white;
+padding:4px 10px;
+border-radius:5px;
+
+}
+
+.status-breakdown{
+
+background:#dc3545;
+color:white;
+padding:4px 10px;
+border-radius:5px;
+
+}
+
+.status-setup{
+
+background:#ff9800;
+color:white;
+padding:4px 10px;
+border-radius:5px;
+
+}
+
+.status-stop{
+
+background:#6c757d;
+color:white;
+padding:4px 10px;
+border-radius:5px;
+
+}
+.timeline-table{
+
+width:100%;
+
+border-collapse:collapse;
+
+font-size:11px;
+
+}
+
+.timeline-table th{
+
+background:#003366;
+
+color:white;
+
+}
+
+.timeline-table td,
+.timeline-table th{
+
+border:1px solid #ddd;
+
+height:28px;
+
+min-width:55px;
+
+text-align:center;
+
+}
+
+.run{
+
+background:#28a745;
+
+cursor:pointer;
+
+}
+
+.bd{
+
+background:#dc3545;
+
+cursor:pointer;
+
+}
+
+.idle{
+
+background:#ffc107;
+
+cursor:pointer;
+
+}
+
+.stop{
+
+background:#6c757d;
+
+cursor:pointer;
+
+}
+.graph-grid{
+display:grid;
+grid-template-columns:2fr 2fr 1fr;
+gap:20px;
+align-items:start;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+<h1>🏭 RCMMS LPC Maintenance Dashboard</h1>
+</div>
+<div class="container">
+
+
+<!-- TOP KPI -->
+
+<div class="cards">
+
+<div class="card open">
+<h3>OPEN</h3>
+<p>{{ open_breakdown }}</p>
+</div>
+
+<div class="card pending">
+<h3>PENDING</h3>
+<p>0</p>
+</div>
+
+<div class="card closed">
+<h3>CLOSED</h3>
+<p>{{ closed_breakdown }}</p>
+</div>
+
+<div class="card low">
+<h3>LOW STOCK</h3>
+<p>{{ low_stock }}</p>
+</div>
+
+<div class="card total">
+<h3>TOTAL</h3>
+<p>{{ total_breakdown }}</p>
+</div>
+
+</div>
+
+<!-- KPI -->
+
+<div class="kpi-grid">
+
+<div class="kpi-card blue">
+<h3>🔧 MTTR</h3>
+<h1>{{ mttr }}</h1>
+<p>Minutes</p>
+</div>
+
+<div class="kpi-card green">
+<h3>⚙️ MTBF</h3>
+<h1>{{ mtbf }}</h1>
+<p>Hours</p>
+</div>
+
+<div class="kpi-card orange">
+<h3>✅ Closure Rate</h3>
+<h1>{{ closure_rate }}%</h1>
+<p>Completed Jobs</p>
+</div>
+
+<div class="kpi-card red">
+<h3>📋 RCA</h3>
+<h1>{{ total_rca }}</h1>
+<p>Total RCA</p>
+</div>
+
+</div>
+
+
+<!-- MACHINE STATUS -->
+
+<div class="section">
+
+<h2>🔴 Open Breakdown Monitoring</h2>
+
+<table>
+
+<tr>
+<th>Machine</th>
+<th>Ticket</th>
+<th>Status</th>
+<th>Breakdown Time</th>
+<th>Problem</th>
+<th>Operator</th>
+</tr>
+
+{% for row in breakdown_tracking %}
+
+<tr>
+
+<td>{{ row[0] }}</td>
+
+<td>{{ row[1] }}</td>
+
+<td>
+
+{% if row[2] == 'OPEN' %}
+
+<span class="status-open">
+🔴 OPEN
+</span>
+
+{% else %}
+
+<span class="status-closed">
+🟢 CLOSED
+</span>
+
+{% endif %}
+
+</td>
+
+<td>{{ row[3] }}</td>
+<td>{{ row[4] }}</td>
+<td>{{ row[5] }}</td>
+</tr>
+
+{% endfor %}
+
+</table>
+
+</div>
+
+<!-- TABLES -->
+
+<div class="dashboard-grid">
+
+
+
+</div>
+
+<div class="section">
+
+<h2>📋 Recent RCA</h2>
+
+<!-- CHARTS -->
+
+<div class="graph-grid">
+
+    <div class="section">
+
+        <h2>📊 Machine Wise Breakdown</h2>
+
+        <canvas id="machineChart"></canvas>
+
+    </div>
+
+    <div class="section">
+
+        <h2>📈 Problem Pareto</h2>
+
+        <canvas id="problemChart"></canvas>
+
+    </div>
+
+    <div class="section">
+
+        <h2>📊 Breakdown Status</h2>
+
+        <canvas id="breakdownStatusChart"></canvas>
+
+    </div>
+
+</div>
+<script>
+
+new Chart(document.getElementById("machineChart"),{
+
+type:"bar",
+
+data:{
+
+labels:["C&C","MCR","USW","KAPPA",],
+
+datasets:[{
+
+label:"Breakdown",
+
+data:[12,8,5,3,6],
+
+backgroundColor:"#0078d7"
+
+}]
+
+}
+
+});
+
+new Chart(document.getElementById("problemChart"),{
+
+type:"bar",
+
+data:{
+
+labels:[
+"Applicator",
+"Terminal",
+"Sensor",
+"Wire",
+],
+
+datasets:[{
+
+label:"Count",
+
+data:[25,20,15,10,8],
+
+backgroundColor:"#ff9800"
+
+}]
+
+}
+
+});
+new Chart(
+document.getElementById("breakdownStatusChart"),
+{
+    type:"doughnut",
+
+    data:{
+
+        labels:[
+            "Open",
+            "Closed"
+        ],
+
+        datasets:[{
+
+            data:[
+                {{ open_breakdown }},
+                {{ closed_breakdown }}
+            ],
+
+            backgroundColor:[
+                "#ff9800",
+                "#28a745"
+            ],
+
+            borderWidth:2
+
+        }]
+    },
+
+    options:{
+
+        responsive:true,
+
+        maintainAspectRatio:false,
+
+        plugins:{
+
+            legend:{
+                position:"top"
+            }
+
+        }
+
+    }
+
+});
+</script>
+
+</body>
+</html>

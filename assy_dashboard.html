@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>ASSY Dashboard</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
+}
+
+body{
+background:#f4f6f9;
+}
+
+.header{
+background:#003366;
+color:white;
+padding:20px;
+text-align:center;
+font-size:30px;
+font-weight:bold;
+}
+
+.container{
+width:95%;
+margin:auto;
+padding:20px;
+}
+
+.section-title{
+font-size:24px;
+font-weight:bold;
+color:#003366;
+margin-bottom:15px;
+border-left:5px solid #0078d7;
+padding-left:10px;
+}
+
+.summary-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+gap:15px;
+margin-bottom:25px;
+}
+
+.card{
+background:white;
+padding:20px;
+text-align:center;
+border-radius:10px;
+box-shadow:0 3px 10px rgba(0,0,0,.15);
+}
+
+.card h2{
+margin-top:10px;
+font-size:28px;
+}
+
+.card-red{
+background:#dc3545;
+color:white;
+}
+
+.card-orange{
+background:#fd7e14;
+color:white;
+}
+
+.card-green{
+background:#198754;
+color:white;
+}
+
+.card-blue{
+background:#0d6efd;
+color:white;
+}
+
+.card-purple{
+background:#6f42c1;
+color:white;
+}
+
+.card-dark{
+background:#003366;
+color:white;
+}
+
+.menu-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:15px;
+}
+
+.menu-card{
+background:white;
+padding:20px;
+border-radius:10px;
+text-align:center;
+box-shadow:0 3px 10px rgba(0,0,0,.15);
+transition:.3s;
+}
+
+.menu-card:hover{
+transform:translateY(-5px);
+}
+
+.menu-card a{
+text-decoration:none;
+color:#003366;
+font-weight:bold;
+font-size:18px;
+}
+
+.icon{
+font-size:40px;
+margin-bottom:10px;
+}
+
+.back-btn{
+display:inline-block;
+background:#198754;
+color:white;
+padding:10px 20px;
+text-decoration:none;
+border-radius:5px;
+margin-bottom:20px;
+}
+.graph-container{
+
+background:white;
+padding:15px;
+border-radius:10px;
+box-shadow:0 3px 10px rgba(0,0,0,.15);
+margin-bottom:20px;
+
+height:350px;
+
+}
+
+.graph-container canvas{
+
+max-height:250px !important;
+
+}
+.graph-grid{
+
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:20px;
+
+}
+
+.graph-container{
+
+background:white;
+padding:15px;
+border-radius:10px;
+box-shadow:0 3px 10px rgba(0,0,0,.15);
+height:320px;
+
+}
+
+</style>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<div class="header">
+
+🏭 ASSY Maintenance Dashboard
+
+</div>
+
+<div class="container">
+
+<a href="/maintenance"
+class="back-btn">
+
+⬅ Back To Main Dashboard
+
+</a>
+
+<div class="section-title">
+
+📊 ASSY System Overview
+
+</div>
+
+<div class="summary-grid">
+
+<div class="card card-red">
+
+<h3>Total Breakdown</h3>
+
+<h2>{{ total_breakdown }}</h2>
+
+</div>
+
+<div class="card card-orange">
+
+<h3>Open Breakdown</h3>
+
+<h2>{{ open_breakdown }}</h2>
+
+</div>
+
+<div class="card card-green">
+
+<h3>Closed Breakdown</h3>
+
+<h2>{{ closed_breakdown }}</h2>
+
+</div>
+
+<div class="card card-blue">
+
+<h3>Low Stock</h3>
+
+<h2>{{ low_stock }}</h2>
+
+</div>
+
+<div class="card card-purple">
+
+<h3>Spare Issue</h3>
+
+<h2>{{ total_issue }}</h2>
+
+</div>
+
+<div class="card card-dark">
+
+<h3>Spare Receive</h3>
+
+<h2>{{ total_receive }}</h2>
+
+</div>
+
+</div>
+<div class="graph-grid">
+
+    <div class="graph-container">
+
+        <h3>Breakdown Status</h3>
+
+        <canvas id="breakdownChart"></canvas>
+
+    </div>
+
+    <div class="graph-container">
+
+        <h3>Spare Movement</h3>
+
+        <canvas id="spareChart"></canvas>
+
+    </div>
+
+    <div class="graph-container">
+
+        <h3>Downtime Analysis</h3>
+
+        <canvas id="downtimeChart"></canvas>
+
+    </div>
+
+</div>
+
+</div>
+
+</div>
+
+<br>
+
+<div class="section-title">
+
+📦 ASSY Inventory
+
+</div>
+
+<div class="menu-grid">
+
+<div class="menu-card">
+<div class="icon">📦</div>
+<a href="/assy_spare_parts_master">
+Spare Parts Master
+</a>
+</div>
+
+<div class="menu-card">
+<div class="icon">📤</div>
+<a href="/assy_spare_issue">
+Spare Issue
+</a>
+</div>
+
+<div class="menu-card">
+<div class="icon">📥</div>
+<a href="/assy_spare_receive">
+Spare Receive
+</a>
+</div>
+
+<div class="menu-card">
+<div class="icon">📊</div>
+<a href="/assy_spare_consumption_report">
+Spare Consumption Report
+</a>
+</div>
+
+<div class="menu-card">
+<div class="icon">⚠️</div>
+<a href="/assy_low_stock_report">
+Low Stock Report
+</a>
+</div>
+
+</div>
+
+<br>
+
+<div class="section-title">
+
+📑 ASSY Reports
+
+</div>
+
+<div class="menu-grid">
+
+<div class="menu-card">
+<div class="icon">📅</div>
+<a href="/assy_daily_report">
+Daily Report
+</a>
+</div>
+
+<div class="menu-card">
+<div class="icon">📆</div>
+<a href="/assy_weekly_report">
+Weekly Report
+</a>
+</div>
+
+<div class="menu-card">
+<div class="icon">🗓</div>
+<a href="/assy_monthly_report">
+Monthly Report
+</a>
+</div>
+
+<div class="menu-card">
+<div class="icon">🏭</div>
+<a href="/assy_machine_report">
+Machine Wise Report
+</a>
+</div>
+
+<div class="menu-card">
+<div class="icon">📈</div>
+<a href="/assy_problem_wise_report">
+Assy Problem Wise Report
+</a>
+</div>
+
+<div class="menu-card">
+<div class="icon">⏱</div>
+<a href="/Assy_downtime_report">
+Assy Downtime Report
+</a>
+</div>
+
+<div class="menu-card">
+<div class="icon">📋</div>
+<a href="/rca_report">
+RCA Report
+</a>
+</div>
+
+<div class="menu-card"> 
+<div class="icon">👨‍🔧</div>
+<a href="/Assy_technician_performance_report">
+Assy Technician Performance
+</a>
+</div>
+<div class="menu-card">
+
+<div class="icon">📋</div>
+
+<a href="/assy_stock_card_report">
+
+Assy Stock Card Report
+
+</a>
+
+</div>
+</div>
+<script>
+
+new Chart(
+document.getElementById('breakdownChart'),
+
+{
+type:'doughnut',
+
+data:{
+labels:[
+'Open',
+'Closed'
+],
+
+datasets:[{
+
+data:[
+{{ open_breakdown }},
+{{ closed_breakdown }}
+],
+
+backgroundColor:[
+'#fd7e14',
+'#198754'
+]
+
+}]
+}
+
+});
+
+new Chart(
+document.getElementById('spareChart'),
+
+{
+type:'bar',
+
+data:{
+labels:[
+'Issue',
+'Receive'
+],
+
+datasets:[{
+
+label:'Transactions',
+
+data:[
+{{ total_issue }},
+{{ total_receive }}
+],
+
+backgroundColor:[
+'#6f42c1',
+'#003366'
+]
+
+}]
+}
+
+});
+
+</script>
+<script>
+
+new Chart(
+document.getElementById('downtimeChart'),
+{
+type:'bar',
+
+data:{
+labels:['Total Downtime'],
+
+datasets:[{
+
+label:'Minutes',
+
+data:[
+{{ total_downtime }}
+],
+
+backgroundColor:[
+'#dc3545'
+]
+
+}]
+},
+
+options:{
+responsive:true,
+maintainAspectRatio:false
+}
+
+}
+);
+
+</script>
+</body>
+
+</html>

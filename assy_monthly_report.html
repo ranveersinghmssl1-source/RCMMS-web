@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>ASSY Monthly Report</title>
+
+<style>
+
+body{
+font-family:'Segoe UI',sans-serif;
+background:#f4f6f9;
+margin:0;
+}
+
+.header{
+background:#fd7e14;
+color:white;
+padding:20px;
+text-align:center;
+font-size:28px;
+font-weight:bold;
+}
+
+.container{
+width:95%;
+margin:auto;
+margin-top:20px;
+background:white;
+padding:20px;
+border-radius:10px;
+box-shadow:0 0 10px rgba(0,0,0,.15);
+}
+
+.summary{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:15px;
+margin-bottom:20px;
+}
+
+.card{
+background:#003366;
+color:white;
+padding:20px;
+text-align:center;
+border-radius:10px;
+font-size:22px;
+font-weight:bold;
+}
+
+.back-btn{
+background:#198754;
+color:white;
+padding:10px 20px;
+border-radius:5px;
+text-decoration:none;
+display:inline-block;
+margin-bottom:15px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+th{
+background:#003366;
+color:white;
+padding:12px;
+}
+
+td{
+padding:10px;
+border:1px solid #ddd;
+text-align:center;
+}
+
+tr:nth-child(even){
+background:#f8f9fa;
+}
+
+.closed{
+color:green;
+font-weight:bold;
+}
+
+.open{
+color:red;
+font-weight:bold;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+
+📅 ASSY Monthly Maintenance Report
+
+</div>
+
+<div class="container">
+
+<a href="/assy_maintenance_report"
+class="back-btn">
+
+⬅ Back To Report
+
+</a>
+
+<div class="summary">
+
+<div class="card">
+
+Total Breakdown
+
+<br><br>
+
+{{ total_breakdown }}
+
+</div>
+
+<div class="card">
+
+Total Downtime
+
+<br><br>
+
+{{ total_downtime or 0 }} Min
+
+</div>
+
+</div>
+
+<table>
+
+<tr>
+
+<th>Ticket No</th>
+<th>Date</th>
+<th>Machine</th>
+<th>Problem</th>
+<th>Technician</th>
+<th>Downtime</th>
+<th>Status</th>
+
+</tr>
+
+{% for row in report_data %}
+
+<tr>
+
+<td>{{ row[0] }}</td>
+<td>{{ row[1] }}</td>
+<td>{{ row[2] }}</td>
+<td>{{ row[3] }}</td>
+<td>{{ row[4] }}</td>
+<td>{{ row[5] }} Min</td>
+
+<td>
+
+{% if row[6] == 'CLOSED' %}
+
+<span class="closed">
+CLOSED
+</span>
+
+{% else %}
+
+<span class="open">
+OPEN
+</span>
+
+{% endif %}
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</div>
+
+</body>
+
+</html>

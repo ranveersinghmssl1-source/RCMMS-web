@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>Store Management Dashboard</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
+}
+
+body{
+background:#eef2f7;
+}
+
+.header{
+
+background:#003366;
+
+color:white;
+
+padding:15px;
+
+text-align:center;
+
+font-size:28px;
+
+font-weight:bold;
+
+}
+
+.container{
+
+width:98%;
+
+margin:auto;
+
+padding:15px;
+
+}
+
+.cards{
+
+display:grid;
+
+grid-template-columns:repeat(4,1fr);
+
+gap:15px;
+
+margin-bottom:20px;
+
+}
+
+.card{
+
+padding:20px;
+
+border-radius:12px;
+
+color:white;
+
+text-align:center;
+
+box-shadow:0 3px 10px rgba(0,0,0,.2);
+
+}
+
+.card h3{
+
+font-size:18px;
+
+}
+
+.card p{
+
+font-size:40px;
+
+font-weight:bold;
+
+margin-top:10px;
+
+}
+
+.open{
+background:#ff9800;
+}
+
+.approved{
+background:#0078d7;
+}
+
+.issued{
+background:#28a745;
+}
+
+.rejected{
+background:#dc3545;
+}
+
+.section{
+
+background:white;
+
+padding:15px;
+
+border-radius:12px;
+
+box-shadow:0 3px 10px rgba(0,0,0,.15);
+
+}
+
+.section h2{
+
+margin-bottom:15px;
+
+color:#003366;
+
+}
+
+table{
+
+width:100%;
+
+border-collapse:collapse;
+
+}
+
+th{
+
+background:#003366;
+
+color:white;
+
+padding:10px;
+
+}
+
+td{
+
+padding:10px;
+
+border:1px solid #ddd;
+
+text-align:center;
+
+}
+
+.status-open{
+
+background:#ff9800;
+
+color:white;
+
+padding:5px 10px;
+
+border-radius:5px;
+
+font-weight:bold;
+
+}
+
+.status-approved{
+
+background:#0078d7;
+
+color:white;
+
+padding:5px 10px;
+
+border-radius:5px;
+
+font-weight:bold;
+
+}
+
+.status-issued{
+
+background:#28a745;
+
+color:white;
+
+padding:5px 10px;
+
+border-radius:5px;
+
+font-weight:bold;
+
+}
+
+.status-rejected{
+
+background:#dc3545;
+
+color:white;
+
+padding:5px 10px;
+
+border-radius:5px;
+
+font-weight:bold;
+
+}
+
+.btn-approve{
+
+background:#0078d7;
+
+color:white;
+
+padding:6px 12px;
+
+border-radius:5px;
+
+text-decoration:none;
+
+margin-right:5px;
+
+}
+
+.btn-issue{
+
+background:#28a745;
+
+color:white;
+
+padding:6px 12px;
+
+border-radius:5px;
+
+text-decoration:none;
+
+margin-right:5px;
+
+}
+
+.btn-reject{
+
+background:#dc3545;
+
+color:white;
+
+padding:6px 12px;
+
+border-radius:5px;
+
+text-decoration:none;
+
+}
+
+.btn-approve:hover{
+opacity:.8;
+}
+
+.btn-issue:hover{
+opacity:.8;
+}
+
+.btn-reject:hover{
+opacity:.8;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+
+🏪 STORE MANAGEMENT DASHBOARD
+
+</div>
+
+<div class="container">
+
+<!-- TOP KPI -->
+
+<div class="cards">
+
+<div class="card open">
+
+<h3>OPEN REQUEST</h3>
+
+<p>{{ open_request }}</p>
+
+</div>
+
+<div class="card approved">
+
+<h3>APPROVED</h3>
+
+<p>{{ approved_request }}</p>
+
+</div>
+
+<div class="card issued">
+
+<h3>ISSUED</h3>
+
+<p>{{ issued_request }}</p>
+
+</div>
+
+<div class="card rejected">
+
+<h3>REJECTED</h3>
+
+<p>{{ rejected_request }}</p>
+
+</div>
+
+</div>
+
+<!-- MATERIAL REQUEST -->
+
+<div class="section">
+
+<h2>📦 Material Request Monitoring</h2>
+
+<table>
+
+<tr>
+
+<th>ID</th>
+
+<th>Request No</th>
+
+<th>Date</th>
+
+<th>Machine</th>
+
+<th>Material</th>
+
+<th>Part No</th>
+
+<th>Qty</th>
+
+<th>Priority</th>
+
+<th>Status</th>
+
+<th>Action</th>
+
+</tr>
+
+{% for row in requests %}
+
+<tr>
+
+<td>{{ row[0] }}</td>
+<td>{{ row[1] }}</td>
+<td>{{ row[2] }}</td>
+<td>{{ row[3] }}</td>
+<td>{{ row[4] }}</td>
+<td>{{ row[5] }}</td>
+<td>{{ row[6] }}</td>
+<td>{{ row[7] }}</td>
+
+<td>
+
+{% if row[8] == 'OPEN' %}
+
+<span class="status-open">
+OPEN
+</span>
+
+{% elif row[8] == 'APPROVED' %}
+
+<span class="status-approved">
+APPROVED
+</span>
+
+{% elif row[8] == 'ISSUED' %}
+
+<span class="status-issued">
+ISSUED
+</span>
+
+{% elif row[8] == 'REJECTED' %}
+
+<span class="status-rejected">
+REJECTED
+</span>
+
+{% endif %}
+
+</td>
+
+<td>
+
+{% if row[8] == 'OPEN' %}
+
+<a href="/approve_request/{{ row[0] }}"
+class="btn-approve">
+Approve
+</a>
+
+<a href="/reject_request/{{ row[0] }}"
+class="btn-reject">
+Reject
+</a>
+
+{% elif row[8] == 'APPROVED' %}
+
+<a href="/material_issue/{{ row[0] }}"
+class="btn-issue">
+Issue
+</a>
+
+{% elif row[8] == 'ISSUED' %}
+
+<span style="color:green;font-weight:bold;">
+✅ Completed
+</span>
+
+{% elif row[8] == 'REJECTED' %}
+
+<span style="color:red;font-weight:bold;">
+❌ Rejected
+</span>
+
+{% endif %}
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</div>
+<a href="/material_issue" class="dashboard-card">
+
+    <div class="icon">📤</div>
+
+    <div class="title">
+
+        Material Issue
+
+    </div>
+
+    <div class="desc">
+
+        Issue Material To Operator
+
+    </div>
+
+</a>
+</div>
+
+</body>
+
+</html>

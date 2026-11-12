@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Assy Spare Consumption Report</title>
+
+<style>
+
+body{
+font-family:'Segoe UI',sans-serif;
+background:#f4f6f9;
+margin:0;
+}
+
+.header{
+background:#6f42c1;
+color:white;
+padding:20px;
+text-align:center;
+font-size:28px;
+font-weight:bold;
+}
+
+.container{
+width:95%;
+margin:auto;
+margin-top:20px;
+background:white;
+padding:20px;
+border-radius:10px;
+box-shadow:0 0 10px rgba(0,0,0,.15);
+}
+
+.back-btn{
+background:#198754;
+color:white;
+padding:10px 20px;
+border-radius:5px;
+text-decoration:none;
+display:inline-block;
+margin-bottom:20px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+th{
+background:#003366;
+color:white;
+padding:12px;
+}
+
+td{
+padding:10px;
+border:1px solid #ddd;
+text-align:center;
+}
+
+tr:nth-child(even){
+background:#f8f9fa;
+}
+
+tr:hover{
+background:#e9f2ff;
+}
+
+.rank1{
+color:red;
+font-weight:bold;
+}
+
+.rank2{
+color:#fd7e14;
+font-weight:bold;
+}
+
+.rank3{
+color:#198754;
+font-weight:bold;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+
+📦 Assy Spare Consumption Report
+
+</div>
+
+<div class="container">
+
+<a href="/maintenance"
+class="back-btn">
+
+⬅ Back To Dashboard
+
+</a>
+
+<h2>
+
+Top Consumed Spare Parts
+
+</h2>
+
+<br>
+
+<table>
+
+<tr>
+
+<th>Rank</th>
+<th>Part No</th>
+<th>Part Name</th>
+<th>Total Consumption</th>
+
+</tr>
+
+{% for row in report_data %}
+
+<tr>
+
+<td>
+
+{% if loop.index == 1 %}
+<span class="rank1">🥇 {{ loop.index }}</span>
+
+{% elif loop.index == 2 %}
+<span class="rank2">🥈 {{ loop.index }}</span>
+
+{% elif loop.index == 3 %}
+<span class="rank3">🥉 {{ loop.index }}</span>
+
+{% else %}
+{{ loop.index }}
+{% endif %}
+
+</td>
+
+<td>{{ row[0] }}</td>
+
+<td>{{ row[1] }}</td>
+
+<td>{{ row[2] }}</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</div>
+
+</body>
+
+</html>

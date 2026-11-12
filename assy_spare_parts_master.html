@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>ASSY Spare Parts Master</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
+}
+
+body{
+background:#f4f6f9;
+}
+
+.header{
+background:#003366;
+color:white;
+padding:20px;
+text-align:center;
+font-size:28px;
+font-weight:bold;
+}
+
+.container{
+width:95%;
+margin:auto;
+margin-top:20px;
+background:white;
+padding:20px;
+border-radius:10px;
+box-shadow:0 0 10px rgba(0,0,0,.15);
+}
+
+.section-title{
+font-size:22px;
+color:#003366;
+margin-bottom:15px;
+border-left:5px solid #0078d7;
+padding-left:10px;
+}
+
+.row{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:15px;
+margin-bottom:15px;
+}
+
+.field label{
+display:block;
+font-weight:bold;
+margin-bottom:5px;
+color:#003366;
+}
+
+input,
+select{
+width:100%;
+padding:10px;
+border:1px solid #ccc;
+border-radius:5px;
+}
+
+button{
+background:#0078d7;
+color:white;
+border:none;
+padding:12px 20px;
+border-radius:5px;
+cursor:pointer;
+}
+
+button:hover{
+background:#005ea6;
+}
+
+.back-btn{
+background:#198754;
+color:white;
+padding:10px 20px;
+border-radius:5px;
+text-decoration:none;
+display:inline-block;
+margin-bottom:15px;
+}
+
+.action-bar{
+display:flex;
+gap:10px;
+align-items:center;
+flex-wrap:wrap;
+margin-bottom:15px;
+}
+
+.action-bar input{
+width:220px;
+padding:10px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:15px;
+}
+
+th{
+background:#003366;
+color:white;
+padding:12px;
+}
+
+td{
+padding:10px;
+border:1px solid #ddd;
+text-align:center;
+}
+
+tr:nth-child(even){
+background:#f8f9fa;
+}
+
+.low-stock{
+color:red;
+font-weight:bold;
+}
+
+.normal-stock{
+color:green;
+font-weight:bold;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+
+📦 ASSY Spare Parts Master
+
+</div>
+
+<div class="container">
+
+<a href="/maintenance"
+class="back-btn">
+
+⬅ Back To Dashboard
+
+</a>
+
+<h2 class="section-title">
+
+Add New Spare Part
+
+</h2>
+
+<form action="/save_assy_spare_part"
+method="POST">
+
+<div class="row">
+
+<div class="field">
+
+<label>Part Number</label>
+<input type="text" name="part_no">
+
+</div>
+
+<div class="field">
+
+<label>Part Name</label>
+<input type="text" name="part_name">
+
+</div>
+
+</div>
+
+<div class="row">
+
+<div class="field">
+
+<label>Category</label>
+
+<select name="category">
+
+<option>Mechanical</option>
+<option>Electrical</option>
+<option>Pneumatic</option>
+<option>Sensor</option>
+<option>Consumable</option>
+
+</select>
+
+</div>
+
+<div class="field">
+
+<label>Machine</label>
+
+<select name="machine">
+
+<option>CKT Tester-01</option>
+<option>CKT Tester-02</option>
+<option>C&C-01</option>
+<option>Applicator-01</option>
+
+</select>
+
+</div>
+
+</div>
+
+<div class="row">
+
+<div class="field">
+
+<label>Store Location</label>
+
+<input
+type="text"
+name="store_location"
+value="Maintenance Store">
+
+</div>
+
+<div class="field">
+
+<label>Rack No</label>
+
+<input
+type="text"
+name="rack_no">
+
+</div>
+
+</div>
+
+<div class="row">
+
+<div class="field">
+
+<label>Bin No</label>
+
+<input
+type="text"
+name="bin_no">
+
+</div>
+
+<div class="field">
+
+<label>Unit</label>
+
+<select name="unit">
+
+<option>Pcs</option>
+<option>Set</option>
+<option>Nos</option>
+<option>Box</option>
+
+</select>
+
+</div>
+
+</div>
+
+<div class="row">
+
+<div class="field">
+
+<label>Current Stock</label>
+
+<input
+type="number"
+name="stock_qty">
+
+</div>
+
+<div class="field">
+
+<label>Minimum Stock</label>
+
+<input
+type="number"
+name="minimum_stock">
+
+</div>
+
+</div>
+
+<div class="row">
+
+<div class="field">
+
+<label>Status</label>
+
+<select name="status">
+
+<option>ACTIVE</option>
+<option>INACTIVE</option>
+
+</select>
+
+</div>
+
+
+</div>
+</div>
+
+<button type="submit">
+
+💾 Save Spare Part
+
+</button>
+
+</form>
+
+<br>
+
+<h2 class="section-title">
+
+📋 ASSY Spare Parts List
+
+</h2>
+
+<div class="action-bar">
+
+<input
+type="text"
+id="searchInput"
+onkeyup="searchTable()"
+placeholder="Search Part No, Name, Category...">
+
+</button>
+
+<a href="/download_assy_spare_template">
+
+<button
+type="button">
+
+📋 Template
+
+</button>
+
+</a>
+
+<form action="/upload_assy_spare_excel"
+      method="POST"
+      enctype="multipart/form-data">
+
+<div class="action-bar">
+
+  <input type="file"
+           name="excel_file"
+           required>
+
+  <button type="submit">
+
+  📤 Upload Excel
+
+  </button>
+
+</div>
+
+</form>
+
+</button>
+
+<a href="/export_inventory_excel">
+
+<button
+type="button">
+
+📊 Export Excel
+
+</button>
+
+</a>
+
+</div>
+
+<h3>
+
+Total Spare Parts :
+{{ spare_data|length }}
+
+</h3>
+
+<table id="spareTable">
+
+<tr>
+
+<th>Part No</th>
+<th>Part Name</th>
+<th>Category</th>
+<th>Machine</th>
+<th>Store Location</th>
+<th>Rack No</th>
+<th>Bin No</th>
+<th>Unit</th>
+<th>Stock</th>
+<th>Min Stock</th>
+<th>Status</th>
+<th>Action</th>
+
+</tr>
+
+{% for row in spare_data %}
+
+<tr>
+
+<td>{{ row[1] }}</td>
+<td>{{ row[2] }}</td>
+<td>{{ row[3] }}</td>
+<td>{{ row[4] }}</td>
+<td>{{ row[5] }}</td>
+<td>{{ row[6] }}</td>
+<td>{{ row[7] }}</td>
+<td>{{ row[8] }}</td>
+
+<td>
+
+{% if row[9] <= row[10] %}
+
+<span style="color:red;font-weight:bold">
+{{ row[9] }}
+</span>
+
+{% else %}
+
+<span style="color:green;font-weight:bold">
+{{ row[9] }}
+</span>
+
+{% endif %}
+
+</td>
+
+<td>{{ row[10] }}</td>
+
+<td>{{ row[11] }}</td>
+<td>
+
+<a href="/delete_assy_spare_part/{{ row[0] }}"
+onclick="return confirm('Are you sure for Delete this spare part?')">
+
+🗑 Delete
+
+</a>
+
+</td>
+</tr>
+
+{% endfor %}
+
+</table>
+
+</div>
+
+<<script>
+
+function searchTable(){
+
+    let input =
+    document.getElementById("searchInput");
+
+    let filter =
+    input.value.toUpperCase();
+
+    let table =
+    document.getElementById("spareTable");
+
+    let tr =
+    table.getElementsByTagName("tr");
+
+    for(let i=1;i<tr.length;i++){
+
+        let found = false;
+
+        let td =
+        tr[i].getElementsByTagName("td");
+
+        for(let j=0;j<td.length;j++){
+
+            if(
+                td[j].innerText
+                .toUpperCase()
+                .indexOf(filter) > -1
+            ){
+
+                found = true;
+
+            }
+
+        }
+
+        tr[i].style.display =
+        found ? "" : "none";
+
+    }
+
+}
+
+</script>
+
+</body>
+
+</html>

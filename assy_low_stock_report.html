@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>ASSY Low Stock Report</title>
+
+<style>
+
+body{
+font-family:'Segoe UI',sans-serif;
+background:#f4f6f9;
+margin:0;
+}
+
+.header{
+background:#dc3545;
+color:white;
+padding:20px;
+text-align:center;
+font-size:28px;
+font-weight:bold;
+}
+
+.container{
+width:95%;
+margin:auto;
+margin-top:20px;
+background:white;
+padding:20px;
+border-radius:10px;
+box-shadow:0 0 10px rgba(0,0,0,.15);
+}
+
+.back-btn{
+background:#198754;
+color:white;
+padding:10px 20px;
+border-radius:5px;
+text-decoration:none;
+display:inline-block;
+margin-bottom:20px;
+}
+
+.alert-card{
+background:#fff3cd;
+border-left:5px solid #dc3545;
+padding:15px;
+margin-bottom:15px;
+font-size:18px;
+font-weight:bold;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+th{
+background:#003366;
+color:white;
+padding:12px;
+}
+
+td{
+padding:10px;
+border:1px solid #ddd;
+text-align:center;
+}
+
+tr:nth-child(even){
+background:#f8f9fa;
+}
+
+.low{
+color:red;
+font-weight:bold;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+
+⚠️ ASSY Low Stock Report
+
+</div>
+
+<div class="container">
+
+<a href="/maintenance"
+class="back-btn">
+
+⬅ Back To Dashboard
+
+</a>
+
+<div class="alert-card">
+
+Total Low Stock Parts :
+{{ report_data|length }}
+
+</div>
+
+<table>
+
+<tr>
+
+<th>Part No</th>
+<th>Part Name</th>
+<th>Category</th>
+<th>Machine</th>
+<th>Current Stock</th>
+<th>Minimum Stock</th>
+<th>Status</th>
+
+</tr>
+
+{% for row in report_data %}
+
+<tr>
+
+<td>{{ row[0] }}</td>
+
+<td>{{ row[1] }}</td>
+
+<td>{{ row[2] }}</td>
+
+<td>{{ row[3] }}</td>
+
+<td class="low">
+
+{{ row[4] }}
+
+</td>
+
+<td>{{ row[5] }}</td>
+
+<td>
+
+🔴 LOW STOCK
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</div>
+
+</body>
+
+</html>

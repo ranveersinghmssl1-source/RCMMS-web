@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>RCMMS Material Request System</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
+}
+
+body{
+background:#eef2f7;
+}
+
+.header{
+background:#003366;
+color:white;
+text-align:center;
+padding:30px;
+font-size:45px;
+font-weight:bold;
+}
+
+.container{
+width:95%;
+max-width:1400px;
+margin:40px auto;
+}
+
+.request-card{
+
+background:white;
+
+padding:25px;
+
+border-radius:50px;
+
+box-shadow:0 4px 12px rgba(0,0,0,.15);
+
+}
+
+.request-header{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+margin-bottom:40px;
+
+}
+
+.request-header h2{
+color:#003366;
+}
+
+.status-badge{
+
+background:#0078d7;
+
+color:white;
+
+padding:8px 15px;
+
+border-radius:20px;
+
+font-weight:bold;
+
+}
+
+.form-grid{
+
+display:grid;
+
+grid-template-columns:1fr 1fr;
+
+gap:15px;
+
+margin-bottom:15px;
+
+}
+
+.form-group{
+
+display:flex;
+
+flex-direction:column;
+
+}
+
+.form-group label{
+
+font-weight:bold;
+
+margin-bottom:5px;
+
+color:#003366;
+
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea{
+
+padding:20px;
+
+border:1px solid #ccc;
+
+border-radius:20px;
+
+font-size:40px;
+
+}
+
+.form-group textarea{
+
+resize:none;
+
+}
+
+.button-area{
+
+margin-top:20px;
+
+text-align:right;
+
+}
+
+.btn-submit{
+
+background:#0078d7;
+
+color:white;
+
+border:none;
+
+padding:12px 25px;
+
+border-radius:8px;
+
+font-size:15px;
+
+font-weight:bold;
+
+cursor:pointer;
+
+}
+
+.btn-submit:hover{
+
+background:#005ea6;
+
+}
+
+.full-width{
+
+margin-top:15px;
+
+}
+
+hr{
+margin:20px 0;
+}
+
+table{
+
+width:100%;
+
+border-collapse:collapse;
+
+margin-top:40px;
+
+}
+
+th{
+
+background:#003366;
+
+color:white;
+
+padding:10px;
+
+}
+
+td{
+
+padding:10px;
+
+border:1px solid #ddd;
+
+text-align:center;
+
+}
+
+.pending{
+
+background:#ffc107;
+
+padding:5px 10px;
+
+border-radius:5px;
+
+font-weight:bold;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+
+📦 RCMMS LPC Material Request System
+
+</div>
+
+<div class="container">
+
+<div class="request-card">
+
+<div class="request-header">
+
+<h2>📦 Material Request Form</h2>
+
+<span class="status-badge">
+
+NEW REQUEST
+
+</span>
+
+</div>
+
+<form method="POST">
+
+<div class="form-grid">
+
+<div class="form-group">
+
+<label>Request No</label>
+
+<input
+type="text"
+id="request_no"
+name="request_no"
+readonly>
+
+</div>
+
+<div class="form-group">
+
+<label>Date</label>
+
+<input
+type="text"
+id="request_date"
+name="request_date"
+readonly>
+
+</div>
+
+<div class="form-group">
+
+<label>Time</label>
+
+<input
+type="text"
+id="request_time"
+name="request_time"
+readonly>
+
+</div>
+
+<div class="form-group">
+
+<label>Shift</label>
+
+<select
+id="shift_name"
+name="shift_name">
+
+<option>A SHIFT</option>
+<option>B SHIFT</option>
+<option>C SHIFT</option>
+
+</select>
+
+</div>
+
+<div class="form-group">
+
+<label>Machine Name</label>
+
+<select name="machine_name">
+
+<option>C&C-01</option>
+<option>C&C-02</option>
+<option>C&C-03</option>
+<option>C&C-04</option>
+<option>C&C-05</option>
+
+<option>MCR-01</option>
+<option>MCR-02</option>
+
+<option>USW-01</option>
+<option>USW-02</option>
+
+<option>KAPPA-01</option>
+
+</select>
+
+</div>
+
+<div class="form-group">
+
+<label>Operator Name</label>
+
+<input
+type="text"
+name="operator_name">
+
+</div>
+
+<div class="form-group">
+
+<label>Line Name</label>
+
+<input
+type="text"
+name="line_name">
+
+</div>
+
+<div class="form-group">
+
+<label>Priority</label>
+
+<select name="priority">
+
+<option>HIGH</option>
+<option>MEDIUM</option>
+<option>LOW</option>
+
+</select>
+
+</div>
+
+</div>
+
+<hr>
+
+<h3>📦 Material Information</h3>
+
+<br>
+
+<div class="form-grid">
+
+<div class="form-group">
+
+<label>Material Type</label>
+
+<select name="material_type">
+
+<option>Terminal</option>
+
+<option>Wire</option>
+
+<option>Seal</option>
+
+<option>Tube</option>
+
+<option>Applicator</option>
+
+<option>Tape</option>
+
+</select>
+
+</div>
+
+<div class="form-group">
+
+<label>Part Number</label>
+
+<input
+type="text"
+name="part_no">
+
+</div>
+
+<div class="form-group">
+
+<label>Required Qty</label>
+
+<input
+type="number"
+name="required_qty">
+
+</div>
+
+<div class="form-group">
+
+<label>Urgency</label>
+
+<select name="urgency">
+
+<option>URGENT</option>
+
+<option>NORMAL</option>
+
+<option>PLANNED</option>
+
+</select>
+
+</div>
+
+</div>
+
+<div class="form-group full-width">
+
+<label>Reason For Request</label>
+
+<textarea
+
+rows="4"
+
+name="reason"
+
+placeholder="Example : Terminal damaged during setup, required for production."
+
+></textarea>
+
+</div>
+
+<div class="button-area">
+
+<button
+
+type="submit"
+
+class="btn-submit">
+
+📦 SUBMIT MATERIAL REQUEST
+
+</button>
+
+</div>
+
+</form>
+
+</div>
+
+</div>
+
+<script>
+
+window.onload = function(){
+
+let now = new Date();
+
+let requestNo =
+
+"MR-" +
+
+now.getFullYear() +
+
+String(
+now.getMonth()+1
+).padStart(2,"0") +
+
+String(
+now.getDate()
+).padStart(2,"0") +
+
+String(
+now.getHours()
+).padStart(2,"0") +
+
+String(
+now.getMinutes()
+).padStart(2,"0") +
+
+String(
+now.getSeconds()
+).padStart(2,"0");
+
+document.getElementById(
+
+"request_no"
+
+).value = requestNo;
+
+let year =
+now.getFullYear();
+
+let month =
+String(
+now.getMonth()+1
+).padStart(2,'0');
+
+let day =
+String(
+now.getDate()
+).padStart(2,'0');
+
+document.getElementById(
+
+"request_date"
+
+).value =
+
+year + "-" +
+
+month + "-" +
+
+day;
+
+let hour =
+String(
+now.getHours()
+).padStart(2,'0');
+
+let minute =
+String(
+now.getMinutes()
+).padStart(2,'0');
+
+let second =
+String(
+now.getSeconds()
+).padStart(2,'0');
+
+document.getElementById(
+
+"request_time"
+
+).value =
+
+hour + ":" +
+
+minute + ":" +
+
+second;
+
+let shift="";
+
+if(
+now.getHours() >= 6 &&
+now.getHours() < 14
+){
+
+shift="A SHIFT";
+
+}
+else if(
+now.getHours() >=14 &&
+now.getHours() <22
+){
+
+shift="B SHIFT";
+
+}
+else{
+
+shift="C SHIFT";
+
+}
+
+document.getElementById(
+
+"shift_name"
+
+).value=shift;
+
+};
+
+</script>
+
+</body>
+</html>

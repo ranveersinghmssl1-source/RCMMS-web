@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Assy Problem Wise Report</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
+}
+
+body{
+background:#f4f6f9;
+}
+
+.header{
+background:#dc3545;
+color:white;
+padding:20px;
+text-align:center;
+font-size:28px;
+font-weight:bold;
+}
+
+.container{
+width:95%;
+margin:auto;
+margin-top:20px;
+background:white;
+padding:20px;
+border-radius:10px;
+box-shadow:0px 0px 10px rgba(0,0,0,.15);
+}
+
+.section-title{
+font-size:22px;
+font-weight:bold;
+color:#003366;
+border-left:5px solid #dc3545;
+padding-left:10px;
+margin-bottom:20px;
+}
+
+.back-btn{
+background:#198754;
+color:white;
+text-decoration:none;
+padding:10px 20px;
+border-radius:5px;
+display:inline-block;
+margin-bottom:20px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+th{
+background:#003366;
+color:white;
+padding:12px;
+}
+
+td{
+padding:10px;
+border:1px solid #ddd;
+text-align:center;
+}
+
+tr:nth-child(even){
+background:#f8f9fa;
+}
+
+tr:hover{
+background:#e9f2ff;
+}
+
+.rank1{
+color:red;
+font-weight:bold;
+}
+
+.rank2{
+color:#fd7e14;
+font-weight:bold;
+}
+
+.rank3{
+color:#198754;
+font-weight:bold;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+
+📊 ASSY Problem Wise Report
+
+</div>
+
+<div class="container">
+
+<a href="/assy_maintenance_report"
+class="back-btn">
+
+⬅ Back To ASSY Report
+
+</a>
+
+<h2 class="section-title">
+
+📈 Problem Analysis
+
+</h2>
+
+<table>
+
+<tr>
+
+<th>Rank</th>
+<th>Problem Type</th>
+<th>Total Breakdown</th>
+<th>Total Downtime (Min)</th>
+
+</tr>
+
+{% for row in report_data %}
+
+<tr>
+
+<td>
+
+{% if loop.index == 1 %}
+<span class="rank1">🥇 {{ loop.index }}</span>
+
+{% elif loop.index == 2 %}
+<span class="rank2">🥈 {{ loop.index }}</span>
+
+{% elif loop.index == 3 %}
+<span class="rank3">🥉 {{ loop.index }}</span>
+
+{% else %}
+{{ loop.index }}
+{% endif %}
+
+</td>
+
+<td>{{ row[0] }}</td>
+
+<td>{{ row[1] }}</td>
+
+<td>{{ row[2] or 0 }}</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</div>
+
+</body>
+
+</html>

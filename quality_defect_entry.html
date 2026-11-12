@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>
+Quality Defect Entry
+</title>
+
+<style>
+
+body{
+    background:linear-gradient(
+    135deg,
+    #eef2f7,
+    #dfe8f5
+    );
+
+    font-family:'Segoe UI',sans-serif;
+}
+
+.container{
+
+    width:910;
+    max-width:900px;
+
+    margin:30px auto;
+
+    background:#fff;
+
+    border-radius:20px;
+
+    padding:25px;
+
+    box-shadow:
+    0 10px 25px rgba(0,0,0,.15);
+
+}
+
+.form-header{
+
+    background:linear-gradient(
+    135deg,
+    #003366,
+    #0078d7
+    );
+
+    color:white;
+
+    padding:18px;
+
+    border-radius:12px;
+
+    margin-bottom:20px;
+
+}
+
+.form-header h2{
+    margin:0;
+}
+
+.form-header p{
+    margin-top:5px;
+    font-size:14px;
+}
+.form-grid{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(4,1fr);
+
+    gap:18px;
+
+}
+
+input,
+select,
+textarea{
+
+    width:100%;
+
+    padding:12px;
+
+    border:1px solid #d0d7de;
+
+    border-radius:10px;
+
+    font-size:14px;
+
+    transition:.3s;
+
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+
+    outline:none;
+
+    border-color:#0078d7;
+
+    box-shadow:
+    0 0 0 3px
+    rgba(0,120,215,.15);
+
+}
+
+
+label{
+
+font-weight:600;
+
+display:block;
+
+margin-bottom:5px;
+
+}
+
+textarea{
+
+grid-column:span 4;
+
+height:100px;
+
+}
+
+.btn{
+
+background:#0078d7;
+
+color:white;
+
+padding:12px 20px;
+
+border:none;
+
+border-radius:8px;
+
+cursor:pointer;
+
+font-weight:bold;
+
+}
+
+.btn:hover{
+
+background:#005cb8;
+
+}
+.btn-save{
+
+    background:#28a745;
+
+    color:white;
+
+    border:none;
+
+    padding:12px 20px;
+
+    border-radius:10px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+}
+
+.btn-back{
+
+    background:#6c757d;
+
+    color:white;
+
+    padding:12px 20px;
+
+    border-radius:10px;
+
+    text-decoration:none;
+
+    margin-left:10px;
+
+}
+
+.btn-save:hover{
+
+    background:#218838;
+
+}
+
+.btn-back:hover{
+
+    background:#5a6268;
+
+}
+.mini-cards{
+
+    display:flex;
+
+    gap:15px;
+
+    margin-bottom:20px;
+
+}
+
+.mini-card{
+
+    flex:1;
+
+    background:#f8f9fa;
+
+    padding:15px;
+
+    text-align:center;
+
+    border-radius:10px;
+
+    font-weight:600;
+
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="form-header">
+
+    <h2>📝 Quality Defect Entry Form</h2>
+
+    <p>
+    LPC | Dock | Visual Defect Recording
+    </p>
+
+</div>
+
+<form
+method="POST"
+action="/save_quality_defect">
+
+<div class="form-grid">
+
+<div>
+
+<label>Date</label>
+
+<input
+type="date"
+name="defect_date"
+required>
+
+</div>
+
+<div>
+
+<label>Machine</label>
+
+<input
+type="text"
+name="machine_name"
+required>
+
+</div>
+
+<div>
+
+<label>Part No</label>
+
+<input
+type="text"
+name="part_no"
+required>
+
+</div>
+
+<div>
+
+<label>Inspector</label>
+
+<input
+type="text"
+name="inspector"
+required>
+
+</div>
+
+<div>
+
+<label>Production Qty</label>
+
+<input
+type="number"
+name="production_qty"
+required>
+
+</div>
+
+<div>
+
+<label>Defect Qty</label>
+
+<input
+type="number"
+name="defect_qty"
+required>
+
+</div>
+
+<div>
+
+<label>Category</label>
+
+<select
+name="defect_category">
+
+<option>
+LPC DEFECT
+</option>
+
+<option>
+DOCK DEFECT
+</option>
+
+<option>
+VISUAL DEFECT
+</option>
+
+</select>
+
+</div>
+
+<div>
+
+<label>Defect Type</label>
+
+<select
+name="defect_type">
+
+<option>
+Terminal Damage
+</option>
+
+<option>
+Wire Cut
+</option>
+
+<option>
+Wrong Crimp Height
+</option>
+
+<option>
+Wrong Label
+</option>
+
+<option>
+Wrong Packing
+</option>
+
+<option>
+Scratch
+</option>
+
+<option>
+Dent
+</option>
+
+</select>
+
+</div>
+
+<textarea
+name="remarks"
+placeholder="Remarks">
+</textarea>
+
+</div>
+
+<br>
+
+<button class="btn">
+
+✅ Save Defect
+
+</button>
+
+<a
+href="/quality_dashboard"
+class="btn"
+style="text-decoration:none;">
+
+⬅ Back
+
+</a>
+
+</form>
+
+</div>
+
+</body>
+
+</html>

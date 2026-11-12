@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Quality Management Dashboard</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
+}
+
+body{
+background:#eef2f7;
+}
+
+.header{
+background:#003366;
+color:white;
+padding:15px;
+text-align:center;
+font-size:28px;
+font-weight:bold;
+}
+
+.container{
+width:98%;
+margin:auto;
+padding:15px;
+}
+
+.cards{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:15px;
+margin-bottom:20px;
+}
+
+.card{
+
+    border-radius:18px;
+
+    padding:25px;
+
+    color:white;
+
+    text-align:center;
+
+    box-shadow:0 8px 20px rgba(0,0,0,.12);
+
+    transition:.3s;
+
+}
+
+.card:hover{
+
+    transform:translateY(-5px);
+
+}
+
+.card h3{
+
+    font-size:14px;
+
+    font-weight:600;
+
+    opacity:.9;
+
+}
+
+.card p{
+
+    font-size:36px;
+
+    font-weight:700;
+
+    margin-top:8px;
+
+}
+
+.total{
+background:#0d6efd;
+}
+
+.lpc{
+background:#dc3545;
+}
+
+.dock{
+background:#fd7e14;
+}
+
+.visual{
+background:#198754;
+}
+
+.section{
+
+background:white;
+padding:20px;
+border-radius:12px;
+margin-bottom:20px;
+box-shadow:0 3px 12px rgba(0,0,0,.15);
+
+}
+
+.section h2{
+margin-bottom:15px;
+color:#003366;
+}
+
+.form-grid{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:15px;
+}
+
+label{
+display:block;
+font-weight:600;
+margin-bottom:5px;
+}
+
+input,
+select,
+textarea{
+width:100%;
+padding:10px;
+border:1px solid #ccc;
+border-radius:8px;
+}
+
+textarea{
+grid-column:span 4;
+}
+
+.btn{
+
+background:#0078d7;
+color:white;
+border:none;
+padding:12px;
+border-radius:8px;
+cursor:pointer;
+font-weight:bold;
+
+}
+
+.btn:hover{
+
+background:#f3f8ff;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    background:white;
+}
+
+thead{
+    background:#003366;
+    color:white;
+}
+
+th{
+    padding:12px;
+    text-align:center;
+}
+
+td{
+    padding:12px;
+    text-align:center;
+    border-bottom:1px solid #e5e5e5;
+}
+
+tbody tr:hover{
+    background:#f5f8ff;
+}
+
+.section{
+    overflow-x:auto;
+}
+.badge-lpc{
+background:#dc3545;
+color:white;
+padding:5px 10px;
+border-radius:5px;
+}
+
+.badge-dock{
+background:#ff9800;
+color:white;
+padding:5px 10px;
+border-radius:5px;
+}
+
+.badge-visual{
+background:#28a745;
+color:white;
+padding:5px 10px;
+border-radius:5px;
+}
+.graph-row{
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:20px;
+
+}
+
+.graph-card{
+
+    background:white;
+
+    border-radius:15px;
+
+    padding:20px;
+
+    box-shadow:0 4px 10px rgba(0,0,0,.10);
+
+}
+
+.chart-box{
+
+    height:280px;
+
+    position:relative;
+
+}
+.action-bar{
+    display:flex;
+    gap:10px;
+    padding:15px;
+}
+
+.new-btn{
+    background:#0078d7;
+    color:white;
+    text-decoration:none;
+    padding:10px 15px;
+    border-radius:8px;
+    font-weight:600;
+}
+
+.excel-btn{
+    background:#28a745;
+    color:white;
+    text-decoration:none;
+    padding:10px 15px;
+    border-radius:8px;
+    font-weight:600;
+}
+.search-box{
+
+width:450px;
+max-width:100%;
+
+display:block;
+
+margin:15px auto;
+
+padding:12px;
+
+border:1px solid #d0d7de;
+
+border-radius:10px;
+
+}
+.sub-header{
+
+font-size:14px;
+
+margin-top:5px;
+
+opacity:.9;
+
+font-weight:400;
+
+}
+tr:hover{
+background:#f5f8ff;
+}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<div class="header">
+
+🔍 Quality Management Dashboard
+
+<div class="sub-header">
+
+PPM | FPY | LPC | Dock | Visual Defect Monitoring
+
+</div>
+
+</div>
+<div class="action-bar">
+
+<a href="/quality_defect_entry"
+class="new-btn">
+
+➕ New Defect
+
+</a>
+
+<a href="/download_quality_excel"
+class="excel-btn">
+
+📥 Excel Report
+
+</a>
+
+</div>
+<div class="container">
+
+<div class="cards">
+
+<div class="card total">
+<h3>PRODUCTION</h3>
+<p>{{ production_qty }}</p>
+</div>
+
+<div class="card lpc">
+<h3>DEFECT QTY</h3>
+<p>{{ defect_qty }}</p>
+</div>
+
+<div class="card dock">
+<h3>PPM</h3>
+<p>{{ ppm }}</p>
+</div>
+
+<div class="card visual">
+<h3>FPY %</h3>
+<p>{{ fpy }}</p>
+</div>
+
+<div class="card total">
+<h3>LPC DEFECT</h3>
+<p>{{ lpc_defect }}</p>
+</div>
+
+<div class="card lpc">
+<h3>DOCK DEFECT</h3>
+<p>{{ dock_defect }}</p>
+</div>
+
+<div class="card dock">
+<h3>VISUAL DEFECT</h3>
+<p>{{ visual_defect }}</p>
+</div>
+
+<div class="card visual">
+<h3>TOTAL DEFECT</h3>
+<p>{{ total_defect }}</p>
+</div>
+
+</div>
+<div class="cards">
+
+    <div class="card total">
+        <h3>GOOD QTY</h3>
+        <p>{{ production_qty - defect_qty }}</p>
+    </div>
+
+    <div class="card lpc">
+        <h3>QUALITY SCORE</h3>
+        <p>{{ fpy }}%</p>
+    </div>
+
+    <div class="card dock">
+        <h3>TODAY DEFECT</h3>
+        <p>{{ total_defect }}</p>
+    </div>
+
+    <div class="card visual">
+        <h3>MONTHLY PPM</h3>
+        <p>{{ ppm }}</p>
+    </div>
+
+</div>
+
+<!-- QUALITY ENTRY -->
+
+<div class="graph-row">
+
+    <!-- Defect Category -->
+
+    <div class="graph-card">
+
+        <h2>📊 Defect Category Analysis</h2>
+
+        <div class="chart-box">
+
+            <canvas id="defectChart"></canvas>
+
+        </div>
+
+    </div>
+
+    <!-- Production Vs Defect -->
+
+    <div class="graph-card">
+
+        <h2>📈 Production vs Defect Analysis</h2>
+
+        <div class="chart-box">
+
+            <canvas id="productionChart"></canvas>
+
+        </div>
+
+    </div>
+
+</div>
+<div class="graph-row">
+
+    <div class="graph-card">
+
+        <h2>⚙ Machine Wise Defect</h2>
+
+        <div class="chart-box">
+
+            <canvas id="machineChart"></canvas>
+
+        </div>
+
+    </div>
+
+    <div class="graph-card">
+
+        <h2>📈 Monthly PPM Trend</h2>
+
+        <div class="chart-box">
+
+            <canvas id="ppmTrendChart"></canvas>
+
+        </div>
+
+    </div>
+
+</div>
+<input
+type="text"
+id="searchInput"
+class="search-box"
+placeholder="Search Machine, Part No, Defect">
+
+<div class="section">
+
+<h2>📊 Defect Monitoring Report</h2>
+
+<table id="defectTable">
+
+<thead>
+
+<tr>
+    <th>ID</th>
+    <th>Date</th>
+    <th>Machine</th>
+    <th>Category</th>
+    <th>Defect Type</th>
+    <th>Part No</th>
+    <th>Qty</th>
+    <th>Inspector</th>
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for row in defects %}
+
+<tr>
+
+    <td>{{ row[0] }}</td>   <!-- ID -->
+
+    <td>{{ row[1] }}</td>   <!-- Date -->
+
+    <td>{{ row[2] }}</td>   <!-- Machine -->
+
+    <td>
+
+    {% if row[3] == 'LPC DEFECT' %}
+
+        <span class="badge-lpc">
+            LPC DEFECT
+        </span>
+
+    {% elif row[3] == 'DOCK DEFECT' %}
+
+        <span class="badge-dock">
+            DOCK DEFECT
+        </span>
+
+    {% elif row[3] == 'VISUAL DEFECT' %}
+
+        <span class="badge-visual">
+            VISUAL DEFECT
+        </span>
+
+    {% endif %}
+
+    </td>
+
+    <td>{{ row[4] }}</td>   <!-- Defect Type -->
+
+    <td>{{ row[5] }}</td>   <!-- Part No -->
+
+    <td>{{ row[6] }}</td>   <!-- Defect Qty -->
+
+    <td>{{ row[7] }}</td>   <!-- Inspector -->
+
+</tr>
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+</div>
+<script>
+
+// =========================
+// Defect Category Graph
+// =========================
+
+new Chart(
+document.getElementById("defectChart"),
+{
+    type:'doughnut',
+
+    data:{
+        labels:[
+            'LPC Defect',
+            'Dock Defect',
+            'Visual Defect'
+        ],
+
+        datasets:[{
+
+            label:'Defect Count',
+
+            data:[
+                {{ lpc_defect }},
+                {{ dock_defect }},
+                {{ visual_defect }}
+            ],
+
+            backgroundColor:[
+                '#dc3545',
+                '#ff9800',
+                '#28a745'
+            ]
+
+        }]
+    },
+
+    options:{
+
+        responsive:true,
+
+        maintainAspectRatio:false,
+        
+        cutout:'60%',
+
+        plugins:{
+            legend:{
+             position:'bottom'
+
+            }
+        }
+
+    }
+
+});
+
+// =========================
+// Production VS Defect
+// =========================
+
+new Chart(
+document.getElementById("productionChart"),
+{
+    type:'doughnut',
+
+    data:{
+
+        labels:[
+            'Good Qty',
+            'Defect Qty'
+        ],
+
+        datasets:[{
+
+            data:[
+
+                {{ production_qty - defect_qty }},
+                {{ defect_qty }}
+
+            ],
+
+            backgroundColor:[
+                '#28a745',
+                '#dc3545'
+            ],
+
+            borderWidth:2
+
+        }]
+    },
+
+    options:{
+
+        responsive:true,
+
+        maintainAspectRatio:false,
+
+        cutout:'60%',
+
+        plugins:{
+
+            legend:{
+                position:'bottom'
+            }
+
+        }
+
+    }
+});
+
+new Chart(
+document.getElementById("machineChart"),
+{
+
+type:'bar',
+
+data:{
+
+labels:[
+
+{% for row in machine_data %}
+
+'{{ row[0] }}',
+
+{% endfor %}
+
+],
+
+datasets:[{
+
+label:'Defect Qty',
+
+data:[
+
+{% for row in machine_data %}
+
+{{ row[1] }},
+
+{% endfor %}
+
+],
+
+backgroundColor:[
+'#0d6efd',
+'#198754',
+'#fd7e14',
+'#dc3545',
+'#6f42c1'
+]
+}]
+
+},
+
+options:{
+responsive:true,
+maintainAspectRatio:false
+}
+
+});
+document
+.getElementById("searchInput")
+.addEventListener(
+"keyup",
+function(){
+
+let filter =
+this.value.toLowerCase();
+
+let rows =
+document.querySelectorAll(
+"#defectTable tr"
+);
+
+rows.forEach(function(row){
+
+let text =
+row.innerText.toLowerCase();
+
+row.style.display =
+text.includes(filter)
+? ""
+: "none";
+
+});
+
+});
+new Chart(
+document.getElementById("ppmTrendChart"),
+{
+
+type:'line',
+
+data:{
+
+labels:[
+
+{% for row in ppm_trend %}
+
+'{{ row[0] }}',
+
+{% endfor %}
+
+],
+
+datasets:[{
+
+label:'PPM',
+
+data:[
+
+{% for row in ppm_trend %}
+
+{{ row[1] }},
+
+{% endfor %}
+
+],
+
+borderColor:'#0078d7',
+
+backgroundColor:'#0078d7',
+
+fill:false,
+
+tension:0.4
+
+}]
+
+},
+
+options:{
+
+responsive:true,
+
+maintainAspectRatio:false
+
+}
+
+});
+
+</script>
+</body>
+</html>

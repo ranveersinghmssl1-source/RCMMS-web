@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>RCMMS ASSY Maintenance Action</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
+}
+
+body{
+background:#f4f6f9;
+}
+
+.header{
+background:#003366;
+color:white;
+padding:20px;
+text-align:center;
+font-size:30px;
+font-weight:bold;
+}
+
+.container{
+width:95%;
+margin:15px auto;
+background:white;
+padding:20px;
+border-radius:10px;
+box-shadow:0 2px 10px rgba(0,0,0,.15);
+}
+
+.row{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:15px;
+margin-bottom:15px;
+}
+
+.field label{
+display:block;
+font-weight:bold;
+margin-bottom:5px;
+color:#003366;
+}
+
+input,
+select,
+textarea{
+width:100%;
+padding:10px;
+border:1px solid #ccc;
+border-radius:5px;
+}
+
+textarea{
+height:90px;
+resize:none;
+}
+
+.button-area{
+margin-top:20px;
+}
+
+button{
+background:#0078d7;
+color:white;
+border:none;
+padding:12px 25px;
+border-radius:5px;
+cursor:pointer;
+font-size:16px;
+}
+
+button:hover{
+background:#005ea6;
+}
+
+.history-btn{
+background:#0d6efd;
+margin-bottom:10px;
+}
+
+</style>
+</head>
+
+<body>
+
+
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>ASSY Maintenance History</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
+}
+
+body{
+background:#f4f6f9;
+}
+
+.header{
+background:linear-gradient(90deg,#003366,#0078d7);
+color:white;
+padding:20px;
+text-align:center;
+}
+
+.container{
+width:95%;
+margin:auto;
+margin-top:20px;
+background:white;
+padding:20px;
+border-radius:10px;
+box-shadow:0 2px 10px rgba(0,0,0,.15);
+}
+
+.section-title{
+font-size:22px;
+color:#003366;
+margin-bottom:15px;
+border-left:5px solid #0078d7;
+padding-left:10px;
+}
+
+.search-box{
+display:flex;
+gap:10px;
+margin-bottom:15px;
+flex-wrap:wrap;
+}
+
+input{
+padding:10px;
+border:1px solid #ccc;
+border-radius:5px;
+}
+
+button{
+background:#0078d7;
+color:white;
+border:none;
+padding:10px 20px;
+border-radius:5px;
+cursor:pointer;
+}
+
+button:hover{
+background:#005ea6;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:10px;
+}
+
+table th{
+background:#003366;
+color:white;
+padding:12px;
+border:1px solid #ddd;
+}
+
+table td{
+padding:10px;
+border:1px solid #ddd;
+text-align:center;
+}
+
+table tr:nth-child(even){
+background:#f8f9fa;
+}
+
+table tr:hover{
+background:#eaf3ff;
+}
+
+.open{
+color:red;
+font-weight:bold;
+}
+
+.closed{
+color:green;
+font-weight:bold;
+}
+
+.pending{
+color:orange;
+font-weight:bold;
+}
+
+.back-btn{
+text-decoration:none;
+background:#198754;
+color:white;
+padding:10px 20px;
+border-radius:5px;
+display:inline-block;
+margin-bottom:15px;
+}
+
+</style>
+</head>
+
+<body>
+
+<a href="/assy_maintenance_history"
+class="history-btn">
+
+Assy Maintenance History
+
+</a>
+</button>
+
+<div class="header">
+RCMMS ASSY Maintenance Action Form
+</div>
+
+<div class="container">
+
+<form action="/save_assy_action" method="POST">
+
+<div class="row">
+
+<div class="field">
+<label>Ticket No</label>
+
+<select
+name="ticket_no"
+id="ticket_no">
+
+<option value="">
+Select Ticket
+</option>
+
+{% for row in open_breakdowns %}
+
+<option
+value="{{ row[0] }}"
+data-machine="{{ row[1] }}"
+data-problem="{{ row[2] }}"
+data-date="{{ row[3] }}"
+data-time="{{ row[4] }}">
+
+{{ row[0] }} - {{ row[1] }}
+
+</option>
+
+{% endfor %}
+
+</select>
+
+</div>
+
+<div class="field">
+<label>Breakdown Date</label>
+
+<input
+type="date"
+name="breakdown_date"
+id="breakdown_date"
+readonly>
+
+</div>
+
+</div>
+
+<div class="row">
+
+<div class="field">
+<label>Machine Name</label>
+
+<input
+type="text"
+name="machine_name"
+id="machine_name"
+readonly>
+
+</div>
+
+<div class="field">
+<label>Status</label>
+
+<select name="status">
+
+<option>OPEN</option>
+<option>IN PROGRESS</option>
+<option>CLOSED</option>
+
+</select>
+
+</div>
+
+</div>
+
+<div class="row">
+
+<div class="field">
+<label>Problem</label>
+
+<input
+type="text"
+name="problem_type"
+id="problem"
+readonly>
+</div>
+
+<div class="field">
+<label>Reason</label>
+
+<input
+type="text"
+name="reason">
+
+</div>
+
+</div>
+
+<label>Action Taken</label>
+
+<textarea
+name="action_taken"
+placeholder="Describe maintenance action taken">
+</textarea>
+
+<br><br>
+
+<div class="row">
+
+<div class="field">
+
+<label>Part Used</label>
+
+<input
+type="text"
+name="part_used">
+
+</div>
+
+<div class="field">
+
+<label>Qty Used</label>
+
+<input
+type="number"
+name="qty_used"
+value="1">
+
+</div>
+
+</div>
+
+<div class="row">
+
+<div class="field">
+
+<label>Breakdown Start Time</label>
+
+<input
+type="time"
+name="start_time"
+id="start_time"
+readonly>
+
+</div>
+
+<div class="field">
+
+<label>Breakdown End Time</label>
+
+<input
+type="time"
+name="end_time"
+id="end_time"
+readonly>
+
+</div>
+
+</div>
+
+<div class="row">
+
+<div class="field">
+
+<label>Total Downtime (Min)</label>
+
+<input
+type="number"
+name="down_time"
+id="down_time"
+readonly>
+
+</div>
+
+<div class="field">
+
+<label>Technician Name</label>
+
+<input
+type="text"
+name="technician_name">
+
+</div>
+
+</div>
+
+<label>Remarks</label>
+
+<textarea
+name="remarks"
+placeholder="Additional Remarks">
+</textarea>
+
+<div class="button-area">
+
+<button type="submit">
+Save Maintenance Action
+</button>
+
+</div>
+
+</form>
+
+</div>
+<script>
+
+function calculateDowntime(){
+
+    let start =
+    document.getElementById("start_time").value;
+
+    let end =
+    document.getElementById("end_time").value;
+
+    if(start && end){
+
+        let startTime =
+        new Date("2000-01-01T" + start);
+
+        let endTime =
+        new Date("2000-01-01T" + end);
+
+        let diff = Math.abs(
+            (endTime - startTime) / 60000
+        );
+
+        document.getElementById(
+            "down_time"
+        ).value = parseInt(diff);
+
+    }
+}
+
+
+function loadTicketData(){
+
+    let dropdown =
+    document.getElementById("ticket_no");
+
+    let selected =
+    dropdown.options[
+        dropdown.selectedIndex
+    ];
+
+    document.getElementById("machine_name").value =
+    selected.getAttribute("data-machine") || "";
+
+    document.getElementById("problem").value =
+    selected.getAttribute("data-problem") || "";
+
+    document.getElementById("breakdown_date").value =
+    selected.getAttribute("data-date") || "";
+
+    let startTime =
+    selected.getAttribute("data-time");
+
+    if(startTime){
+
+        document.getElementById("start_time").value =
+        startTime.substring(0,5);
+
+    }
+
+    let now = new Date();
+
+    let hour =
+    String(now.getHours()).padStart(2,'0');
+
+    let minute =
+    String(now.getMinutes()).padStart(2,'0');
+
+    document.getElementById("end_time").value =
+    hour + ":" + minute;
+
+    console.log("Start =", startTime);
+
+console.log(
+"End =",
+hour + ":" + minute
+);
+
+    calculateDowntime();
+
+}
+
+document
+.getElementById("ticket_no")
+.addEventListener(
+"change",
+loadTicketData
+);
+
+window.onload =
+loadTicketData;
+
+document.getElementById("end_time")
+.addEventListener(
+"change",
+calculateDowntime
+);
+
+</script>
+
+</body>
+</html>

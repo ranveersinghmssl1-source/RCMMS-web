@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>RCMMS ASSY Maintenance Report</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
+}
+
+body{
+background:#f4f6f9;
+}
+
+.header{
+background:#003366;
+color:white;
+padding:20px;
+text-align:center;
+font-size:30px;
+font-weight:bold;
+}
+
+.container{
+width:98%;
+margin:auto;
+margin-top:15px;
+background:white;
+padding:20px;
+border-radius:10px;
+box-shadow:0 2px 10px rgba(0,0,0,.15);
+}
+
+.summary-grid{
+display:grid;
+grid-template-columns:1fr 1fr 1fr;
+gap:15px;
+margin-bottom:20px;
+}
+
+.daily{
+background:#0d6efd;
+color:white;
+padding:20px;
+text-align:center;
+border-radius:8px;
+font-size:20px;
+font-weight:bold;
+}
+
+.weekly{
+background:#198754;
+color:white;
+padding:20px;
+text-align:center;
+border-radius:8px;
+font-size:20px;
+font-weight:bold;
+}
+
+.monthly{
+background:#fd7e14;
+color:white;
+padding:20px;
+text-align:center;
+border-radius:8px;
+font-size:20px;
+font-weight:bold;
+}
+
+.section-title{
+font-size:22px;
+font-weight:bold;
+color:#003366;
+margin-bottom:15px;
+border-left:5px solid #0078d7;
+padding-left:10px;
+}
+
+.filter-box{
+display:flex;
+gap:10px;
+margin-bottom:15px;
+align-items:center;
+flex-wrap:wrap;
+}
+
+input{
+padding:10px;
+border:1px solid #ccc;
+border-radius:5px;
+}
+
+button{
+background:#0078d7;
+color:white;
+border:none;
+padding:10px 20px;
+border-radius:5px;
+cursor:pointer;
+}
+
+button:hover{
+background:#005ea6;
+}
+
+.back-btn{
+background:#198754;
+text-decoration:none;
+color:white;
+padding:10px 20px;
+border-radius:5px;
+display:inline-block;
+margin-bottom:15px;
+}
+
+.export-btn{
+background:#fd7e14;
+margin-left:10px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:10px;
+}
+
+table th{
+background:#003366;
+color:white;
+padding:12px;
+border:1px solid #ddd;
+}
+
+table td{
+padding:10px;
+border:1px solid #ddd;
+text-align:center;
+}
+
+table tr:nth-child(even){
+background:#f8f9fa;
+}
+
+table tr:hover{
+background:#e9f2ff;
+}
+
+.open{
+color:red;
+font-weight:bold;
+}
+
+.closed{
+color:green;
+font-weight:bold;
+}
+
+.pending{
+color:orange;
+font-weight:bold;
+}
+
+.footer{
+margin-top:20px;
+text-align:center;
+color:#666;
+}
+.open{
+color:red;
+font-weight:bold;
+}
+
+.closed{
+color:green;
+font-weight:bold;
+}
+
+.pending{
+color:orange;
+font-weight:bold;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+
+RCMMS ASSY Maintenance Report
+
+</div>
+
+<div class="container">
+
+<div class="summary-grid">
+
+<div class="daily">
+
+Daily Report
+
+<br><br>
+
+{{ daily_count }}
+
+Breakdowns
+
+</div>
+
+<div class="weekly">
+
+Weekly Report
+
+<br><br>
+
+{{ weekly_count }}
+
+Breakdowns
+
+</div>
+
+<div class="monthly">
+
+Monthly Report
+
+<br><br>
+
+{{ monthly_count }}
+
+Breakdowns
+
+</div>
+
+</div>
+
+<h2 class="section-title">
+
+📊 ASSY Maintenance Report Details
+
+</h2>
+
+<form method="GET">
+
+<input type="date" name="from_date">
+
+<input type="date" name="to_date">
+
+<button type="submit">
+
+Generate Report
+
+</button>
+
+</form>
+<a href="/export_assy_report">
+
+<button class="export-btn">
+
+📊 Export Excel
+
+</button>
+
+<a href="/export_assy_breakdown">
+
+<button>
+
+📊 Export Breakdown Excel
+
+</button>
+
+<a href="/export_rca_report">
+
+<button>
+
+📊 Export RCA Excel
+
+</button>
+
+<a href="/Assy_export_inventory_excel">
+
+<button type="button">
+
+📦 Assy Export Inventory Excel
+
+</button>
+
+</a>
+
+
+</div>
+
+</div>
+<div class="summary-info">
+
+<div class="summary-grid">
+
+    <div class="daily">
+
+        📤 Spare Issue
+
+        <br><br>
+
+        {{ total_issue }}
+
+        Transaction
+
+    </div>
+
+    <div class="weekly">
+
+        📥 Spare Receive
+
+        <br><br>
+
+        {{ total_receive }}
+
+        Transaction
+
+    </div>
+
+    <div class="monthly">
+
+        📦 Stock Movement
+
+        <br><br>
+
+        Issue: {{ total_issue_qty }}
+
+        <br>
+
+        Receive: {{ total_receive_qty }}
+
+    </div>
+
+</div>
+
+Total Records:
+{{ report_data|length }}
+
+</div>
+
+<table>
+
+<tr>
+    <th>Ticket No</th>
+    <th>Date</th>
+    <th>Machine</th>
+    <th>Problem</th>
+    <th>Technician</th>
+    <th>Downtime</th>
+    <th>Status</th>
+</tr>
+
+{% for row in report_data %}
+
+<tr>
+
+    <td>{{ row[0] }}</td>
+
+    <td>{{ row[1] }}</td>
+
+    <td>{{ row[2] }}</td>
+
+    <td>{{ row[3] }}</td>
+
+    <td>{{ row[4] }}</td>
+
+    <td>{{ row[5] }} Min</td>
+
+    <td>
+
+        {% if row[6] == 'CLOSED' %}
+        <span style="color:green;font-weight:bold;">
+        CLOSED
+        </span>
+
+        {% else %}
+        <span style="color:red;font-weight:bold;">
+        OPEN
+        </span>
+
+        {% endif %}
+
+    </td>
+
+</tr>
+
+{% endfor %}
+</table>
+<br><br>
+
+<h2 class="section-title">
+
+📊 Available Reports
+
+</h2>
+<a href="/assy_machine_report">
+
+Assy Machine Wise Report
+
+</a>
+
+<table>
+
+<tr>
+
+<th>Report Type</th>
+<th>Description</th>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="/assy_daily_report">
+
+Daily Report
+
+</a>
+</td>
+
+<td>
+Today's ASSY Breakdown Summary
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="/assy_weekly_report">
+
+Weekly Report
+
+</a>
+</td>
+
+<td>
+Weekly ASSY Machine Breakdown Analysis
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="/assy_monthly_report">
+
+Monthly Report
+
+</a>
+</td>
+
+<td>
+Monthly ASSY Maintenance Performance
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="/top_breakdown_machines">
+
+Top Breakdown Machines
+
+</a>
+</td>
+
+<td>
+Most Breakdown Machines Analysis
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="/Assy_problem_wise_report">
+
+Assy Problem Wise Report
+
+</a>
+</td>
+
+<td>
+Pareto Analysis
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="/Assy_downtime_report">
+
+Assy Down Time Report
+
+</a>
+</td>
+
+<td>
+Total Machine Downtime
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="/assy_spare_consumption_report">
+
+📊 ASSY Spare Consumption Report
+
+</a>
+
+<td>
+Used Spare Parts History
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="/Assy_rca_report">
+
+Assy RCA Report
+
+</a>
+</td>
+
+<td>
+Root Cause Analysis Records
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="/Assy_technician_performance_report">
+
+Assy_Technician Performance Report
+
+</a>
+</td>
+
+<td>
+Technician Breakdown Handling
+</td>
+
+</tr>
+<tr>
+
+<td>
+
+<a href="/assy_spare_issue">
+
+📤 ASSY Spare Issue report
+
+</a>
+
+</td>
+
+<td>
+
+Spare Issue History
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+
+<a href="/assy_spare_receive">
+
+📥 ASSY Spare Receive Report
+
+</a>
+
+</td>
+
+<td>
+
+Spare Receive History
+
+</td>
+
+</tr>
+<div class="card">
+
+<div class="icon">⚠️</div>
+
+<a href="/assy_low_stock_report">
+
+ASSY Low Stock Report
+
+</a>
+
+</div>
+</table>
+
+RCMMS ASSY Maintenance Reporting System
+<br>
+Generated On:
+{{ current_date }}
+
+</div>
+
+</div>
+
+</body>
+
+</html>
