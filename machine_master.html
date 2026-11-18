@@ -1,178 +1,434 @@
-<!DOCTYPE html><html><head><title>MSSL Machine Master</title>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>RCMMS Machine Master</title>
+
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif;}
-body{background:#f4f6f9;}
-.header{background:linear-gradient(90deg,#003366,#0078d7);color:white;padding:18px;text-align:center;}
-.container{width:95%;margin:auto;margin-top:15px;background:white;padding:20px;border-radius:10px;box-shadow:0 2px 10px rgba(0,0,0,.15);}
-.info-card{background:#eef6ff;padding:12px;border-left:5px solid #0078d7;border-radius:5px;margin-bottom:15px;}
-.section-title{font-size:22px;margin-bottom:15px;color:#003366;border-left:5px solid #0078d7;padding-left:10px;}
-.row{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-bottom:15px;}
-.field label{display:block;font-weight:bold;margin-bottom:5px;color:#003366;}
-input,select{width:100%;padding:10px;border:1px solid #ccc;border-radius:5px;font-size:14px;}
-input:focus,select:focus{outline:none;border-color:#0078d7;box-shadow:0 0 5px rgba(0,120,215,0.3);}
-.button-area{text-align:center;margin-top:20px;}
-button{background:#0078d7;color:white;border:none;padding:12px 25px;border-radius:5px;cursor:pointer;font-size:16px;}
-button:hover{background:#005ea6;}
-table{width:100%;border-collapse:collapse;margin-top:20px;}
-th{background:#003366;color:white;}
-th,td{padding:10px;border:1px solid #ddd;text-align:center;}
-.running{background:#28a745;color:white;padding:4px 10px;border-radius:4px;}
-.breakdown{background:#dc3545;color:white;padding:4px 10px;border-radius:4px;}
-.idle{background:#ffc107;color:black;padding:4px 10px;border-radius:4px;}
-.search-box{margin-bottom:15px;}
-.search-box input{width:300px;}
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Segoe UI,sans-serif;
+}
+
+body{
+background:#f4f6f9;
+}
+
+.header{
+background:linear-gradient(90deg,#003366,#0078d7);
+color:white;
+padding:15px;
+text-align:center;
+}
+
+.container{
+width:95%;
+margin:auto;
+margin-top:15px;
+background:white;
+padding:20px;
+border-radius:10px;
+box-shadow:0 2px 10px rgba(0,0,0,.15);
+}
+
+.section-title{
+color:#003366;
+margin-bottom:15px;
+}
+
+.row{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:15px;
+margin-bottom:15px;
+}
+
+.field label{
+display:block;
+font-weight:bold;
+margin-bottom:5px;
+}
+
+input,select{
+width:100%;
+padding:10px;
+border:1px solid #ccc;
+border-radius:5px;
+}
+
+button{
+background:#0078d7;
+color:white;
+border:none;
+padding:10px 20px;
+cursor:pointer;
+border-radius:5px;
+}
+
+button:hover{
+background:#005ea6;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:20px;
+}
+
+th{
+background:#003366;
+color:white;
+}
+
+th,td{
+padding:10px;
+border:1px solid #ddd;
+text-align:center;
+}
+
+.running{
+background:green;
+color:white;
+padding:4px 10px;
+border-radius:4px;
+}
+
+.breakdown{
+background:red;
+color:white;
+padding:4px 10px;
+border-radius:4px;
+}
+
+.idle{
+background:orange;
+color:black;
+padding:4px 10px;
+border-radius:4px;
+}
+
+.search-box{
+margin:15px 0;
+}
+
 </style>
+
 </head>
 <body>
-<div class="header"><h1>🏭 RCMMS Machine Master</h1></div>
+
+<div class="header">
+<h1>🏭 RCMMS Machine Master</h1>
+</div>
+
 <div class="container">
-<div class="info-card">Machine Master for LPC and ASSY Production Area.</div>
+
 <h2 class="section-title">Machine Information</h2>
-<form action="/save_machine" method="POST">
+
+<form id="machineForm">
+
 <div class="row">
-<div class="field"><label>Machine Code</label><input type="text"name="machine_code"placeholder="MC001"required></div>
-<div class="field"><label>Machine Name</label><input type="text"name="machine_name"placeholder="C&C-01"required></div>
+
+<div class="field">
+<label>Machine Code</label>
+<input type="text" id="machineCode" required>
 </div>
+
+<div class="field">
+<label>Machine Name</label>
+<input type="text" id="machineName" required>
+</div>
+
+</div>
+
 <div class="row">
-<div class="field"><label>Department</label>
-<select name="department"><option>LPC</option><option>ASSY</option></select>
-</div>
-<div class="field"><label>Line Name</label>
-<input type="text"name="line_name"placeholder="Line-1">
-</div>
-</div>
-<div class="row">
-<div class="field"><label>Machine Type</label>
-<select name="machine_type">
-<option>C&C</option><option>MCR</option><option>USW</option><option>KAPPA</option><option>Cable Cutting</option><option>CKT Tester</option><option>Conveyor</option>
+
+<div class="field">
+<label>Department</label>
+<select id="department">
+<option>LPC</option>
+<option>ASSY</option>
 </select>
 </div>
-<div class="field"><label>Make Name</label><input type="text"name="make_name"placeholder="Komax"></div>
-</div>
-<div class="row">
-<div class="field"><label>Model No</label><input type="text"name="model_no"placeholder="Alpha 355"></div>
-<div class="field"><label>Serial No</label><input type="text"name="serial_no"placeholder="SN001"></div>
-</div>
-<div class="row">
-<div class="field"><label>Installation Date</label><input type="date"name="installation_date"></div>
-<div class="field"><label>Status</label>
-<select name="status"><option>RUNNING</option><option>BREAKDOWN</option><option>IDLE</option></select>
-</div>
-</div>
-<div class="button-area">
-<button type="submit">💾 Save Machine</button>
-</div>
-</form>
-<hr>
-<h2 class="section-title">Machine List</h2>
-<form action="/machine_master" method="GET">
 
+<div class="field">
+<label>Line Name</label>
+<input type="text" id="lineName">
+</div>
+
+</div>
+
+<div class="row">
+
+<div class="field">
+<label>Machine Type</label>
+<select id="machineType">
+<option>C&C</option>
+<option>MCR</option>
+<option>USW</option>
+<option>KAPPA</option>
+<option>Conveyor</option>
+</select>
+</div>
+
+<div class="field">
+<label>Make Name</label>
+<input type="text" id="makeName">
+</div>
+
+</div>
+
+<div class="row">
+
+<div class="field">
+<label>Model No</label>
+<input type="text" id="modelNo">
+</div>
+
+<div class="field">
+<label>Serial No</label>
+<input type="text" id="serialNo">
+</div>
+
+</div>
+
+<div class="row">
+
+<div class="field">
+<label>Installation Date</label>
+<input type="date" id="installationDate">
+</div>
+
+<div class="field">
+<label>Status</label>
+<select id="status">
+<option>RUNNING</option>
+<option>BREAKDOWN</option>
+<option>IDLE</option>
+</select>
+</div>
+
+</div>
+
+<button type="submit">💾 Save Machine</button>
+
+</form>
+
+<hr style="margin-top:20px;">
+
+<h2 class="section-title">Machine List</h2>
+
+<div class="search-box">
 <input
 type="text"
-name="search_text"
-placeholder="🔍 Search Machine">
-
-<button type="submit">
-
-Search
-
-</button>
-
-
-<a href="/machine_master">Show All</a>
-
-</form>
-
+id="searchInput"
+placeholder="🔍 Search Machine"
+onkeyup="searchMachine()">
 </div>
+
+<table>
+
+<thead>
+
+<tr>
+<th>Code</th>
+<th>Name</th>
+<th>Department</th>
+<th>Line</th>
+<th>Type</th>
+<th>Status</th>
+<th>Edit</th>
+<th>Delete</th>
+</tr>
+
+</thead>
+
+<tbody id="machineTableBody">
+
 </tbody>
 
+</table>
+
+</div>
+
 <script>
-const machines = [
-{
-code:"MC001",
-name:"C&C 01",
-dept:"LPC",
-line:"Line 1",
-status:"RUNNING"
+
+let machines =
+JSON.parse(localStorage.getItem("machines")) || [];
+
+let editIndex = -1;
+
+document
+.getElementById("machineForm")
+.addEventListener("submit",function(e){
+
+e.preventDefault();
+
+const machine={
+
+code:machineCode.value,
+name:machineName.value,
+dept:department.value,
+line:lineName.value,
+type:machineType.value,
+make:makeName.value,
+model:modelNo.value,
+serial:serialNo.value,
+date:installationDate.value,
+status:status.value
+
+};
+
+if(editIndex==-1){
+machines.push(machine);
 }
-];
+else{
+machines[editIndex]=machine;
+editIndex=-1;
+}
 
-const tbody = document.getElementById("machineTableBody");
+localStorage.setItem(
+"machines",
+JSON.stringify(machines)
+);
 
-machines.forEach(machine=>{
-tbody.innerHTML += `
-<tr>
-<td>${machine.code}</td>
-<td>${machine.name}</td>
-<td>${machine.dept}</td>
-<td>${machine.line}</td>
-<td>${machine.status}</td>
-</tr>`;
+this.reset();
+
+loadMachines();
+
 });
+
+function loadMachines(){
+
+const tbody=
+document.getElementById(
+"machineTableBody"
+);
+
+tbody.innerHTML="";
+
+machines.forEach((m,index)=>{
+
+let badge="idle";
+
+if(m.status=="RUNNING"){
+badge="running";
+}
+
+if(m.status=="BREAKDOWN"){
+badge="breakdown";
+}
+
+tbody.innerHTML+=`
+
+<tr>
+
+<td>${m.code}</td>
+
+<td>${m.name}</td>
+
+<td>${m.dept}</td>
+
+<td>${m.line}</td>
+
+<td>${m.type}</td>
+
+<td>
+<span class="${badge}">
+${m.status}
+</span>
+</td>
+
+<td>
+<button onclick="editMachine(${index})">
+Edit
+</button>
+</td>
+
+<td>
+<button
+style="background:red;"
+onclick="deleteMachine(${index})">
+Delete
+</button>
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+function editMachine(index){
+
+const m=machines[index];
+
+machineCode.value=m.code;
+machineName.value=m.name;
+department.value=m.dept;
+lineName.value=m.line;
+machineType.value=m.type;
+makeName.value=m.make;
+modelNo.value=m.model;
+serialNo.value=m.serial;
+installationDate.value=m.date;
+status.value=m.status;
+
+editIndex=index;
+
+}
+
+function deleteMachine(index){
+
+if(confirm("Delete Machine ?")){
+
+machines.splice(index,1);
+
+localStorage.setItem(
+"machines",
+JSON.stringify(machines)
+);
+
+loadMachines();
+
+}
+
+}
+
+function searchMachine(){
+
+let input =
+document
+.getElementById("searchInput")
+.value
+.toLowerCase();
+
+let rows=
+document.querySelectorAll(
+"#machineTableBody tr"
+);
+
+rows.forEach(row=>{
+
+let text=
+row.innerText.toLowerCase();
+
+row.style.display=
+text.includes(input)
+? ""
+: "none";
+
+});
+
+}
+
+loadMachines();
+
 </script>
 
-
-{% if row[6] == 'RUNNING' %}
-
-<span class="running">
-{{ row[6] }}
-</span>
-
-{% elif row[6] == 'BREAKDOWN' %}
-
-<span class="breakdown">
-{{ row[6] }}
-</span>
-
-{% else %}
-
-<span class="idle">
-{{ row[6] }}
-</span>
-
-{% endif %}
-
-</td>
-
-<td>
-
-<a href="/edit_machine/{{ row[0] }}"
-style="
-background:#ffc107;
-color:black;
-padding:5px 10px;
-border-radius:4px;
-text-decoration:none;
-font-weight:bold;
-">
-
-✏️ Edit
-
-</a>
-
-</td>
-
-<td>
-
-<a href="/delete_machine/{{ row[0] }}"
-onclick="return confirm('Are You Sure You Want To Delete This Machine?')"
-style="
-background:#dc3545;
-color:white;
-padding:5px 10px;
-border-radius:4px;
-text-decoration:none;
-font-weight:bold;
-">
-
-🗑 Delete
-
-</a>
-
-</td>
-</tr>
-
-</tr>
-
-{% endfor %}
-<tbody id="machineTableBody">
+</body>
+</html>
