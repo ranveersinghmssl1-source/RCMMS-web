@@ -707,7 +707,7 @@ def machine_master():
         "machine_master.html",
         machine_data=machine_data
     )
-@app.route("/save_machine", methods=["POST"])
+<form id="machineForm">
 def save_machine():
 
     machine_code = request.form["machine_code"]
