@@ -1,31 +1,16 @@
 
-from datetime import datetime
-from flask import Flask, render_template, request, redirect, flash
-from turtle import pd
+import os
+import mysql.connector
 
-from flask import Flask, render_template, request, redirect, send_file
-import pandas
-import pandas as pd
-import pymysql
-from datetime import datetime
-from flask import Flask, render_template, request, redirect, flash, send_file, session
-import pandas as pd
-import pymysql
-
-app = Flask(__name__)
-app.secret_key = "RCMMS_maintenance_2026"
-
-# ==========================
-# AIVEN ONLINE DATABASE CONNECTION
-# ==========================
-db = pymysql.connect(
-    host="ranveer-server-ranveersinghmssl1-9ed1.d.aivencloud.com",
-    port=18259,
-    user="avnadmin",
-    password="AVNS_a3yItpgbsMKerc7-T36",  # अपना Aiven पासवर्ड यहाँ डालें
-    database="defaultdb",
-    autocommit=True
+db = mysql.connector.connect(
+    host=os.getenv("MYSQLHOST"),
+    user=os.getenv("MYSQLUSER"),
+    password=os.getenv("MYSQLPASSWORD"),
+    database=os.getenv("MYSQLDATABASE"),
+    port=int(os.getenv("MYSQLPORT"))
 )
+
+cursor = db.cursor()
 
 cursor = db.cursor()
 
