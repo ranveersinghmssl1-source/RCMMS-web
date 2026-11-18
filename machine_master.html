@@ -84,26 +84,33 @@ Search
 </form>
 
 </div>
-<table>
-<tr><th>Code</th><th>Machine Name</th><th>Department</th><th>Line</th><th>Type</th><th>Make</th><th>Status</th><th>Action</th>
-<th>Delete</th></tr>
-{% for row in machine_data %}
+</tbody>
 
+<script>
+const machines = [
+{
+code:"MC001",
+name:"C&C 01",
+dept:"LPC",
+line:"Line 1",
+status:"RUNNING"
+}
+];
+
+const tbody = document.getElementById("machineTableBody");
+
+machines.forEach(machine=>{
+tbody.innerHTML += `
 <tr>
+<td>${machine.code}</td>
+<td>${machine.name}</td>
+<td>${machine.dept}</td>
+<td>${machine.line}</td>
+<td>${machine.status}</td>
+</tr>`;
+});
+</script>
 
-<td>{{ row[0] }}</td>
-
-<td>{{ row[1] }}</td>
-
-<td>{{ row[2] }}</td>
-
-<td>{{ row[3] }}</td>
-
-<td>{{ row[4] }}</td>
-
-<td>{{ row[5] }}</td>
-
-<td>
 
 {% if row[6] == 'RUNNING' %}
 
@@ -169,29 +176,3 @@ font-weight:bold;
 
 {% endfor %}
 <tbody id="machineTableBody">
-</tbody>
-
-<script>
-const machines = [
-{
-code:"MC001",
-name:"C&C 01",
-dept:"LPC",
-line:"Line 1",
-status:"RUNNING"
-}
-];
-
-const tbody = document.getElementById("machineTableBody");
-
-machines.forEach(machine=>{
-tbody.innerHTML += `
-<tr>
-<td>${machine.code}</td>
-<td>${machine.name}</td>
-<td>${machine.dept}</td>
-<td>${machine.line}</td>
-<td>${machine.status}</td>
-</tr>`;
-});
-</script>
