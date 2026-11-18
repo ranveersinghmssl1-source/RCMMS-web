@@ -166,13 +166,14 @@ gap:20px;
 }
 
 </style>
+
 </head>
 
 <body>
 
 <div class="header">
 <h1>RCMMS Maintenance Management System</h1>
-<p>Admin Dashboard</p>
+<h3>Admin Dashboard</h3>
 </div>
 
 <div class="container">
@@ -184,51 +185,23 @@ gap:20px;
 <div class="card-grid">
 
 <div class="card">
-<i class="fas fa-industry"></i>
 <h3>Total Machines</h3>
-<h1>{{ total_machines }}</h1>
+<h1>24</h1>
 </div>
 
 <div class="card">
-<i class="fas fa-users"></i>
 <h3>Total Operators</h3>
-<h1>{{ total_operators }}</h1>
+<h1>45</h1>
 </div>
 
 <div class="card">
-<i class="fas fa-screwdriver-wrench"></i>
 <h3>Total Technicians</h3>
-<h1>{{ total_technicians }}</h1>
+<h1>12</h1>
 </div>
 
 <div class="card">
-<i class="fas fa-user-shield"></i>
 <h3>Total Users</h3>
-<h1>{{ total_users }}</h1>
-</div>
-
-<div class="card">
-<i class="fas fa-triangle-exclamation"></i>
-<h3>Total Breakdown</h3>
-<h1>{{ total_breakdown }}</h1>
-</div>
-
-<div class="card">
-<i class="fas fa-circle-xmark"></i>
-<h3>Open Breakdown</h3>
-<h1>{{ open_breakdown }}</h1>
-</div>
-
-<div class="card">
-<i class="fas fa-circle-check"></i>
-<h3>Closed Breakdown</h3>
-<h1>{{ closed_breakdown }}</h1>
-</div>
-
-<div class="card">
-<i class="fas fa-box-open"></i>
-<h3>Low Stock</h3>
-<h1>{{ low_stock }}</h1>
+<h1>18</h1>
 </div>
 
 </div>
@@ -239,132 +212,125 @@ gap:20px;
 
 <div class="card-grid">
 
-<a href="{{ url_for('machine_master') }}" class="menu-card">
-<i class="fas fa-industry"></i>
-<span>Machine Master</span>
+<div class="card">
+<a href="{{ url_for('machine_master') }}">
+Machine Master
 </a>
-
-<a href="{{ url_for('operator_master') }}" class="menu-card">
-<i class="fas fa-user-gear"></i>
-<span>Operator Master</span>
-</a>
-
-<a href="{{ url_for('technician_master') }}" class="menu-card">
-<i class="fas fa-screwdriver"></i>
-<span>Technician Master</span>
-</a>
-
-<a href="{{ url_for('problem_master') }}" class="menu-card">
-<i class="fas fa-triangle-exclamation"></i>
-<span>Problem Master</span>
-</a>
-
-<a href="{{ url_for('applicator_master') }}" class="menu-card">
-<i class="fas fa-toolbox"></i>
-<span>Applicator Master</span>
-</a>
-
-<a href="{{ url_for('terminal_master') }}" class="menu-card">
-<i class="fas fa-plug"></i>
-<span>Terminal Master</span>
-</a>
-
-<a href="{{ url_for('user_master') }}" class="menu-card">
-<i class="fas fa-user-shield"></i>
-<span>User Master</span>
-</a>
-
 </div>
 
-<div class="section-title">
-📦 Inventory Management
+<div class="card">
+<a href="{{ url_for('operator_master') }}">
+Operator Master
+</a>
 </div>
 
-<div class="card-grid">
-
-<a href="{{ url_for('spare_parts_master') }}" class="menu-card">
-<i class="fas fa-box"></i>
-<span>Spare Parts Master</span>
+<div class="card">
+<a href="{{ url_for('technician_master') }}">
+Technician Master
 </a>
-
-<a href="{{ url_for('spare_issue') }}" class="menu-card">
-<i class="fas fa-arrow-up-right-from-square"></i>
-<span>Spare Issue</span>
-</a>
-
-<a href="{{ url_for('spare_receive') }}" class="menu-card">
-<i class="fas fa-arrow-down"></i>
-<span>Spare Receive</span>
-</a>
-
 </div>
 
-<div class="section-title">
-⚙️ Operations
+<div class="card">
+<a href="{{ url_for('user_master') }}">
+User Master
+</a>
 </div>
-
-<div class="card-grid">
-
-<a href="{{ url_for('lpc_form') }}" class="menu-card">
-<i class="fas fa-file-circle-plus"></i>
-<span>LPC Breakdown</span>
-</a>
-
-<a href="{{ url_for('assy_form') }}" class="menu-card">
-<i class="fas fa-gears"></i>
-<span>ASSY Breakdown</span>
-</a>
-
-<a href="{{ url_for('maintenance_action') }}" class="menu-card">
-<i class="fas fa-check-circle"></i>
-<span>Maintenance Action</span>
-</a>
-
-<a href="{{ url_for('rca') }}" class="menu-card">
-<i class="fas fa-magnifying-glass-chart"></i>
-<span>Root Cause Analysis</span>
-</a>
-
-</div>
-
-<div class="section-title">
-📈 Monitoring & Reports
-</div>
-
-<div class="card-grid">
-
-<a href="{{ url_for('maintenance_dashboard') }}" class="menu-card">
-<i class="fas fa-chart-line"></i>
-<span>Maintenance Dashboard</span>
-</a>
-
-<a href="{{ url_for('reports') }}" class="menu-card">
-<i class="fas fa-file-lines"></i>
-<span>Reports</span>
-</a>
-
-<a href="{{ url_for('quality_dashboard') }}" class="menu-card">
-<i class="fas fa-chart-pie"></i>
-<span>Quality Dashboard</span>
-</a>
-
-<a href="{{ url_for('store_dashboard') }}" class="menu-card">
-<i class="fas fa-store"></i>
-<span>Store Dashboard</span>
-</a>
 
 </div>
 
 <div class="footer">
+RCMMS Maintenance Management System
+</div>
 
-RCMMS Maintenance Management System |
-<a href="{{ url_for('logout') }}">
-Logout
+</div>
+
+</body>
+</html>
+</head>
+
+<body>
+
+<div class="header">
+<h1>RCMMS Maintenance Management System</h1>
+<h3>Admin Dashboard</h3>
+</div>
+
+<div class="container">
+<div class="section-title">📊 System Overview</div>
+
+<div class="card-grid">
+<div class="card"><div class="icon">🏭</div><h3>Total Machines</h3><h1>24</h1></div>
+<div class="card"><div class="icon">👷</div><h3>Total Operators</h3><h1>45</h1></div>
+<div class="card"><div class="icon">🛠️</div><h3>Total Technicians</h3><h1>12</h1></div>
+<div class="card"><div class="icon">👤</div><h3>Total Users</h3><h1>18</h1></div>
+<div class="card"><div class="icon">⚠️</div><h3>Total Breakdown</h3><h1>32</h1></div>
+<div class="card"><div class="icon">🔴</div><h3>Open Breakdown</h3><h1>4</h1></div>
+<div class="card"><div class="icon">✅</div><h3>Closed Breakdown</h3><h1>28</h1></div>
+<div class="card"><div class="icon">⚠️</div><h3>Low Stock</h3><h1>5</h1></div>
+</div>
+
+<!-- MASTER DATA -->
+<div class="section-title">🏭 Master Data</div>
+<div class="card-grid">
+<div class="card"><div class="icon">🏭</div><a href="machine_master.html">Machine Master</a></div>
+<div class="card"><div class="icon">👷</div><a href="operator_master.html">Operator Master</a></div>
+<div class="card"><div class="icon">🛠️</div><a href="technician_master.html">Technician Master</a></div>
+<div class="card"><div class="icon">⚠️</div><a href="problem_master.html">Problem Master</a></div>
+<div class="card"><div class="icon">🔧</div><a href="applicator_master.html">Applicator Master</a></div>
+<div class="card"><div class="icon">🔩</div><a href="terminal_master.html">Terminal Master</a></div>
+<div class="card"><div class="icon">👤</div><a href="user_master.html">User Master</a></div>
+</div>
+
+<!-- INVENTORY -->
+<div class="section-title">📦 Maintenance Inventory Management</div>
+<div class="card-grid">
+<div class="card"><div class="icon">📦</div><a href="Spare_Parts_Master.html">Spare Parts Master</a></div>
+<div class="card"><div class="icon">📤</div><a href="spare_issue.html">Spare Issue</a></div>
+<div class="card"><div class="icon">📥</div><a href="spare_receive.html">Spare Receive</a></div>
+</div>
+
+<!-- ASSY INVENTORY MANAGEMENT -->
+<div class="section-title">📦 ASSY Inventory Management</div>
+<div class="card-grid">
+<div class="card"><div class="icon">📦</div><a href="assy_spare_parts_master.html">ASSY Spare Parts Master</a></div>
+<div class="card"><div class="icon">📤</div><a href="assy_spare_issue.html">ASSY Spare Issue</a></div>
+<div class="card"><div class="icon">📥</div><a href="assy_spare_receive.html">ASSY Spare Receive</a></div>
+</div>
+
+<!-- OPERATIONS -->
+<div class="section-title">⚙️ Operations</div>
+<div class="card-grid">
+<div class="card"><div class="icon">📝</div><a href="lpc_form.html">LPC Breakdown</a></div>
+<div class="card"><div class="icon">🏗️</div><a href="assy_form.html">ASSY Breakdown</a></div>
+<div class="card"><div class="icon">✅</div><a href="maintenance_action.html">Maintenance Action</a></div>
+<div class="card"><div class="icon">🔧</div><a href="assy_maintenance_action.html">ASSY Maintenance Action</a></div>
+<div class="card"><div class="icon">🔍</div><a href="rca.html">Root Cause Analysis</a></div>
+</div>
+
+<!-- MONITORING -->
+<div class="section-title">📊 Monitoring & Reports</div>
+<div class="monitoring-grid">
+<div class="monitor-card"><div class="monitor-icon">📊</div><a href="maintenance_dashboard.html">Maintenance Dashboard</a></div>
+<div class="monitor-card"><div class="monitor-icon">🟢</div><a href="assy_dashboard.html">ASSY Dashboard</a></div>
+<div class="monitor-card"><div class="monitor-icon">📈</div><a href="reports.html">Reports</a></div>
+<div class="monitor-card"><div class="monitor-icon">📋</div><a href="ASSY_Maintenance_Report.html">ASSY Maintenance Report</a></div>
+
+<a href="store_dashboard.html" class="dashboard-card">
+<div class="icon">🏪</div>
+<div class="title">Store Dashboard</div>
+<div class="desc">Material Request Approval & Issue</div>
 </a>
 
+<div class="monitor-card">
+<div class="monitor-icon">🔍</div>
+<a href="quality_dashboard.html">Quality Dashboard<br><small>LPC / Dock / Visual</small></a>
+</div>
+</div>
+
+<div class="footer">
+RCMMS Maintenance Management System | <a href="index.html" style="color:white; text-decoration:underline;">Logout</a>
 </div>
 
 </div>
-
 </body>
 </html>
