@@ -63,18 +63,22 @@ margin-bottom:20px;
 }
 
 .card{
-background:white;
-padding:20px;
+background:#fff;
 border-radius:15px;
+padding:20px;
+height:140px;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
 text-align:center;
-box-shadow:0 3px 12px rgba(0,0,0,.12);
+box-shadow:0 4px 12px rgba(0,0,0,.15);
 transition:.3s;
 border-top:5px solid #0078d7;
 }
 
 .card:hover{
 transform:translateY(-5px);
-box-shadow:0 8px 20px rgba(0,0,0,.20);
 }
 
 .card i{
@@ -95,24 +99,22 @@ font-size:34px;
 }
 
 .menu-card{
-background:white;
-padding:20px;
+background:#fff;
 border-radius:15px;
-text-align:center;
-text-decoration:none;
-color:#003366;
-box-shadow:0 3px 12px rgba(0,0,0,.12);
-transition:.3s;
+padding:20px;
+height:140px;
 display:flex;
 flex-direction:column;
 justify-content:center;
 align-items:center;
-min-height:140px;
+text-decoration:none;
+color:#003366;
+box-shadow:0 4px 12px rgba(0,0,0,.15);
+transition:.3s;
 }
 
 .menu-card:hover{
 transform:translateY(-5px);
-box-shadow:0 8px 20px rgba(0,0,0,.20);
 }
 
 .menu-card i{
@@ -156,7 +158,9 @@ font-size:20px;
 }
 
 .card-grid{
-grid-template-columns:1fr;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:20px;
 }
 
 }
