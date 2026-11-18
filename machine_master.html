@@ -168,6 +168,30 @@ font-weight:bold;
 </tr>
 
 {% endfor %}
-</table>
-</div>
-</body></html>
+<tbody id="machineTableBody">
+</tbody>
+
+<script>
+const machines = [
+{
+code:"MC001",
+name:"C&C 01",
+dept:"LPC",
+line:"Line 1",
+status:"RUNNING"
+}
+];
+
+const tbody = document.getElementById("machineTableBody");
+
+machines.forEach(machine=>{
+tbody.innerHTML += `
+<tr>
+<td>${machine.code}</td>
+<td>${machine.name}</td>
+<td>${machine.dept}</td>
+<td>${machine.line}</td>
+<td>${machine.status}</td>
+</tr>`;
+});
+</script>
