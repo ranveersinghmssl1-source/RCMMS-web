@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>MSSL Operator Master</title>
+<meta charset="UTF-8">
+<title>RCMMS Operator Master</title>
 
 <style>
 
@@ -9,17 +10,31 @@
 margin:0;
 padding:0;
 box-sizing:border-box;
+font-family:Segoe UI,sans-serif;
 }
 
 body{
-font-family:'Segoe UI',sans-serif;
 background:#f4f6f9;
+}
+
+.top-bar{
+padding:15px;
+}
+
+.back-btn{
+background:#003366;
+color:white;
+padding:10px 20px;
+border-radius:8px;
+text-decoration:none;
+font-weight:bold;
+display:inline-block;
 }
 
 .header{
 background:linear-gradient(90deg,#003366,#0078d7);
 color:white;
-padding:18px;
+padding:15px;
 text-align:center;
 }
 
@@ -33,12 +48,18 @@ border-radius:10px;
 box-shadow:0 2px 10px rgba(0,0,0,.15);
 }
 
+.info-card{
+background:#eef6ff;
+padding:12px;
+border-left:5px solid #0078d7;
+border-radius:5px;
+margin-bottom:15px;
+}
+
 .section-title{
-font-size:20px;
+font-size:22px;
 margin-bottom:15px;
 color:#003366;
-border-left:5px solid #0078d7;
-padding-left:10px;
 }
 
 .row{
@@ -52,7 +73,6 @@ margin-bottom:15px;
 display:block;
 font-weight:bold;
 margin-bottom:5px;
-color:#003366;
 }
 
 input,
@@ -61,34 +81,30 @@ width:100%;
 padding:10px;
 border:1px solid #ccc;
 border-radius:5px;
-font-size:14px;
-}
-
-.button-area{
-text-align:center;
-margin-top:20px;
 }
 
 button{
 background:#0078d7;
 color:white;
 border:none;
-padding:12px 25px;
-border-radius:5px;
+padding:10px 20px;
 cursor:pointer;
-font-size:16px;
+border-radius:5px;
 }
 
 button:hover{
 background:#005ea6;
 }
 
-.info-card{
-background:#eef6ff;
-padding:12px;
-border-left:5px solid #0078d7;
+.search-box{
+margin:15px 0;
+}
+
+.search-box input{
+width:100%;
+padding:10px;
+border:1px solid #ccc;
 border-radius:5px;
-margin-bottom:15px;
 }
 
 table{
@@ -109,52 +125,51 @@ text-align:center;
 }
 
 .active{
-background:#28a745;
+background:green;
 color:white;
-padding:4px 8px;
+padding:4px 10px;
 border-radius:4px;
 }
 
 .inactive{
-background:#dc3545;
+background:red;
 color:white;
-padding:4px 8px;
+padding:4px 10px;
 border-radius:4px;
 }
-.top-bar{
-padding:15px 20px;
-background:#f4f6f9;
-}
 
-.back-btn{
-background:#003366;
-color:white;
-padding:10px 20px;
-border-radius:8px;
+.edit-btn{
+background:#ffc107;
+color:black;
+padding:5px 10px;
+border-radius:4px;
 text-decoration:none;
 font-weight:bold;
-display:inline-block;
-box-shadow:0 2px 8px rgba(0,0,0,.20);
-transition:.3s;
 }
 
-.back-btn:hover{
-background:#0056b3;
+.delete-btn{
+background:#dc3545;
+color:white;
+padding:5px 10px;
+border-radius:4px;
+text-decoration:none;
+font-weight:bold;
 }
-  
+
 </style>
 
 </head>
 
+<body>
+
 <div class="top-bar">
-<a href="{{ url_for('admin_dashboard') }}" class="back-btn">
+<a href="admin_dashboard.html" class="back-btn">
 🏠 Back Dashboard
 </a>
 </div>
 
-  
 <div class="header">
-<h1>RCMMS Operator Master</h1>
+<h1>👷 RCMMS Operator Master</h1>
 </div>
 
 <div class="container">
@@ -176,7 +191,6 @@ Operator Information
 <input
 type="text"
 name="employee_id"
-placeholder="OP001"
 required>
 </div>
 
@@ -185,7 +199,6 @@ required>
 <input
 type="text"
 name="operator_name"
-placeholder="Operator A"
 required>
 </div>
 
@@ -195,25 +208,17 @@ required>
 
 <div class="field">
 <label>Department</label>
-
 <select name="department">
 <option>LPC</option>
 <option>ASSY</option>
 </select>
-
 </div>
 
 <div class="field">
 <label>Line Name</label>
-
-<select name="line_name">
-<option>Line-1</option>
-<option>Line-2</option>
-<option>Line-3</option>
-<option>ASSY-A</option>
-<option>ASSY-B</option>
-</select>
-
+<input
+type="text"
+name="line_name">
 </div>
 
 </div>
@@ -224,18 +229,14 @@ required>
 <label>User Name</label>
 <input
 type="text"
-name="username"
-placeholder="operatora"
-required>
+name="username">
 </div>
 
 <div class="field">
 <label>Password</label>
 <input
 type="password"
-name="password"
-placeholder="1234"
-required>
+name="password">
 </div>
 
 </div>
@@ -244,42 +245,35 @@ required>
 
 <div class="field">
 <label>Shift</label>
-
 <select name="shift_name">
 <option>A Shift</option>
 <option>B Shift</option>
 <option>C Shift</option>
 </select>
-
 </div>
 
 <div class="field">
 <label>Status</label>
-
 <select name="status">
 <option>ACTIVE</option>
 <option>INACTIVE</option>
 </select>
-
 </div>
 
 </div>
-
-<div class="button-area">
 
 <button type="submit">
 💾 Save Operator
 </button>
 
-</div>
-
 </form>
 
-<hr>
+<hr style="margin-top:20px;">
 
 <h2 class="section-title">
 Operator List
 </h2>
+
 <div class="search-box">
 
 <form action="/operator_master" method="GET">
@@ -289,6 +283,8 @@ type="text"
 name="search_text"
 placeholder="🔍 Search Operator">
 
+<br><br>
+
 <button type="submit">
 Search
 </button>
@@ -296,10 +292,15 @@ Search
 <a href="/operator_master">
 Show All
 </a>
+
 </form>
+
 </div>
+
 <table>
-<table>
+
+<thead>
+
 <tr>
 <th>Employee ID</th>
 <th>Operator Name</th>
@@ -310,23 +311,21 @@ Show All
 <th>Status</th>
 <th>Edit</th>
 <th>Delete</th>
-
 </tr>
+
+</thead>
+
+<tbody>
 
 {% for row in operator_data %}
 
 <tr>
 
 <td>{{ row[0] }}</td>
-
 <td>{{ row[1] }}</td>
-
 <td>{{ row[2] }}</td>
-
 <td>{{ row[3] }}</td>
-
 <td>{{ row[4] }}</td>
-
 <td>{{ row[5] }}</td>
 
 <td>
@@ -334,17 +333,13 @@ Show All
 {% if row[6] == 'ACTIVE' %}
 
 <span class="active">
-
 {{ row[6] }}
-
 </span>
 
 {% else %}
 
 <span class="inactive">
-
 {{ row[6] }}
-
 </span>
 
 {% endif %}
@@ -353,7 +348,9 @@ Show All
 
 <td>
 
-<a href="/edit_operator/{{ row[0] }}">
+<a
+href="/edit_operator/{{ row[0] }}"
+class="edit-btn">
 
 ✏️ Edit
 
@@ -363,8 +360,10 @@ Show All
 
 <td>
 
-<a href="/delete_operator/{{ row[0] }}"
-onclick="return confirm('Delete this Operator?')">
+<a
+href="/delete_operator/{{ row[0] }}"
+onclick="return confirm('Delete Operator ?')"
+class="delete-btn">
 
 🗑 Delete
 
@@ -375,6 +374,10 @@ onclick="return confirm('Delete this Operator?')">
 </tr>
 
 {% endfor %}
+
+</tbody>
+
+</table>
 
 </div>
 
