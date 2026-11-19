@@ -6,7 +6,16 @@ from flask import Flask, render_template, request, redirect, send_file
 import pandas
 import pandas as pd
 import pymysql
+import os
+import mysql.connector
 
+db = mysql.connector.connect(
+    host=os.getenv("MYSQLHOST"),
+    user=os.getenv("MYSQLUSER"),
+    password=os.getenv("MYSQLPASSWORD"),
+    database=os.getenv("MYSQLDATABASE"),
+    port=int(os.getenv("MYSQLPORT"))
+)
 app = Flask(__name__)
 
 app.secret_key = "RCMMS_maintenance_2026"
