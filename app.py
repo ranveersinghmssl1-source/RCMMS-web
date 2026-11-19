@@ -183,8 +183,9 @@ def logout():
 # ADMIN DASHBOARD
 # ==========================
 
-@app.route("/admin")
-def admin():
+@app.route("/admin_dashboard")
+def admin_dashboard():
+    return render_template("admin_dashboard.html")
 
     # Total Machines
     cursor.execute("SELECT COUNT(*) FROM machine_master")
