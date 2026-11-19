@@ -2,6 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>RCMMS Operator Master</title>
 
 <style>
@@ -18,13 +19,13 @@ background:#f4f6f9;
 }
 
 .top-bar{
-padding:15px;
+padding:15px 20px;
 }
 
 .back-btn{
 background:#003366;
 color:white;
-padding:10px 20px;
+padding:10px 18px;
 border-radius:8px;
 text-decoration:none;
 font-weight:bold;
@@ -48,18 +49,17 @@ border-radius:10px;
 box-shadow:0 2px 10px rgba(0,0,0,.15);
 }
 
+.section-title{
+color:#003366;
+margin-bottom:15px;
+}
+
 .info-card{
 background:#eef6ff;
 padding:12px;
 border-left:5px solid #0078d7;
 border-radius:5px;
 margin-bottom:15px;
-}
-
-.section-title{
-font-size:22px;
-margin-bottom:15px;
-color:#003366;
 }
 
 .row{
@@ -75,8 +75,7 @@ font-weight:bold;
 margin-bottom:5px;
 }
 
-input,
-select{
+input,select{
 width:100%;
 padding:10px;
 border:1px solid #ccc;
@@ -94,17 +93,6 @@ border-radius:5px;
 
 button:hover{
 background:#005ea6;
-}
-
-.search-box{
-margin:15px 0;
-}
-
-.search-box input{
-width:100%;
-padding:10px;
-border:1px solid #ccc;
-border-radius:5px;
 }
 
 table{
@@ -138,26 +126,21 @@ padding:4px 10px;
 border-radius:4px;
 }
 
+.search-box{
+margin:15px 0;
+}
+
 .edit-btn{
 background:#ffc107;
 color:black;
-padding:5px 10px;
-border-radius:4px;
-text-decoration:none;
-font-weight:bold;
 }
 
 .delete-btn{
 background:#dc3545;
 color:white;
-padding:5px 10px;
-border-radius:4px;
-text-decoration:none;
-font-weight:bold;
 }
 
 </style>
-
 </head>
 
 <body>
@@ -175,31 +158,25 @@ font-weight:bold;
 <div class="container">
 
 <div class="info-card">
-Manage LPC and ASSY Operator Information.
+Manage LPC and ASSY Operator Information
 </div>
 
 <h2 class="section-title">
 Operator Information
 </h2>
 
-<form action="/save_operator" method="POST">
+<form id="operatorForm">
 
 <div class="row">
 
 <div class="field">
 <label>Employee ID</label>
-<input
-type="text"
-name="employee_id"
-required>
+<input type="text" id="employeeId" required>
 </div>
 
 <div class="field">
 <label>Operator Name</label>
-<input
-type="text"
-name="operator_name"
-required>
+<input type="text" id="operatorName" required>
 </div>
 
 </div>
@@ -208,7 +185,7 @@ required>
 
 <div class="field">
 <label>Department</label>
-<select name="department">
+<select id="department">
 <option>LPC</option>
 <option>ASSY</option>
 </select>
@@ -216,9 +193,7 @@ required>
 
 <div class="field">
 <label>Line Name</label>
-<input
-type="text"
-name="line_name">
+<input type="text" id="lineName">
 </div>
 
 </div>
@@ -227,16 +202,12 @@ name="line_name">
 
 <div class="field">
 <label>User Name</label>
-<input
-type="text"
-name="username">
+<input type="text" id="userName">
 </div>
 
 <div class="field">
 <label>Password</label>
-<input
-type="password"
-name="password">
+<input type="password" id="password">
 </div>
 
 </div>
@@ -245,7 +216,7 @@ name="password">
 
 <div class="field">
 <label>Shift</label>
-<select name="shift_name">
+<select id="shift">
 <option>A Shift</option>
 <option>B Shift</option>
 <option>C Shift</option>
@@ -254,7 +225,7 @@ name="password">
 
 <div class="field">
 <label>Status</label>
-<select name="status">
+<select id="status">
 <option>ACTIVE</option>
 <option>INACTIVE</option>
 </select>
@@ -276,24 +247,11 @@ Operator List
 
 <div class="search-box">
 
-<form action="/operator_master" method="GET">
-
 <input
 type="text"
-name="search_text"
-placeholder="🔍 Search Operator">
-
-<br><br>
-
-<button type="submit">
-Search
-</button>
-
-<a href="/operator_master">
-Show All
-</a>
-
-</form>
+id="searchInput"
+placeholder="🔍 Search Operator"
+onkeyup="searchOperator()">
 
 </div>
 
@@ -303,10 +261,10 @@ Show All
 
 <tr>
 <th>Employee ID</th>
-<th>Operator Name</th>
+<th>Name</th>
 <th>Department</th>
 <th>Line</th>
-<th>User Name</th>
+<th>User</th>
 <th>Shift</th>
 <th>Status</th>
 <th>Edit</th>
@@ -315,71 +273,178 @@ Show All
 
 </thead>
 
-<tbody>
-
-{% for row in operator_data %}
-
-<tr>
-
-<td>{{ row[0] }}</td>
-<td>{{ row[1] }}</td>
-<td>{{ row[2] }}</td>
-<td>{{ row[3] }}</td>
-<td>{{ row[4] }}</td>
-<td>{{ row[5] }}</td>
-
-<td>
-
-{% if row[6] == 'ACTIVE' %}
-
-<span class="active">
-{{ row[6] }}
-</span>
-
-{% else %}
-
-<span class="inactive">
-{{ row[6] }}
-</span>
-
-{% endif %}
-
-</td>
-
-<td>
-
-<a
-href="/edit_operator/{{ row[0] }}"
-class="edit-btn">
-
-✏️ Edit
-
-</a>
-
-</td>
-
-<td>
-
-<a
-href="/delete_operator/{{ row[0] }}"
-onclick="return confirm('Delete Operator ?')"
-class="delete-btn">
-
-🗑 Delete
-
-</a>
-
-</td>
-
-</tr>
-
-{% endfor %}
+<tbody id="operatorTableBody">
 
 </tbody>
 
 </table>
 
 </div>
+
+<script>
+
+let operators =
+JSON.parse(localStorage.getItem("operators")) || [];
+
+let editIndex = -1;
+
+document
+.getElementById("operatorForm")
+.addEventListener("submit",function(e){
+
+e.preventDefault();
+
+const operator={
+
+employeeId:employeeId.value,
+operatorName:operatorName.value,
+department:department.value,
+lineName:lineName.value,
+userName:userName.value,
+password:password.value,
+shift:shift.value,
+status:status.value
+
+};
+
+if(editIndex==-1){
+operators.push(operator);
+}
+else{
+operators[editIndex]=operator;
+editIndex=-1;
+}
+
+localStorage.setItem(
+"operators",
+JSON.stringify(operators)
+);
+
+this.reset();
+
+loadOperators();
+
+});
+
+function loadOperators(){
+
+const tbody =
+document.getElementById(
+"operatorTableBody"
+);
+
+tbody.innerHTML="";
+
+operators.forEach((o,index)=>{
+
+let cls =
+o.status==="ACTIVE"
+? "active"
+: "inactive";
+
+tbody.innerHTML += `
+
+<tr>
+
+<td>${o.employeeId}</td>
+<td>${o.operatorName}</td>
+<td>${o.department}</td>
+<td>${o.lineName}</td>
+<td>${o.userName}</td>
+<td>${o.shift}</td>
+
+<td>
+<span class="${cls}">
+${o.status}
+</span>
+</td>
+
+<td>
+<button
+class="edit-btn"
+onclick="editOperator(${index})">
+Edit
+</button>
+</td>
+
+<td>
+<button
+class="delete-btn"
+onclick="deleteOperator(${index})">
+Delete
+</button>
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+function editOperator(index){
+
+const o = operators[index];
+
+employeeId.value=o.employeeId;
+operatorName.value=o.operatorName;
+department.value=o.department;
+lineName.value=o.lineName;
+userName.value=o.userName;
+password.value=o.password;
+shift.value=o.shift;
+status.value=o.status;
+
+editIndex=index;
+
+}
+
+function deleteOperator(index){
+
+if(confirm("Delete Operator ?")){
+
+operators.splice(index,1);
+
+localStorage.setItem(
+"operators",
+JSON.stringify(operators)
+);
+
+loadOperators();
+
+}
+
+}
+
+function searchOperator(){
+
+let value =
+document
+.getElementById("searchInput")
+.value
+.toLowerCase();
+
+let rows =
+document.querySelectorAll(
+"#operatorTableBody tr"
+);
+
+rows.forEach(row=>{
+
+row.style.display =
+row.innerText.toLowerCase()
+.includes(value)
+? ""
+: "none";
+
+});
+
+}
+
+loadOperators();
+
+</script>
 
 </body>
 </html>
